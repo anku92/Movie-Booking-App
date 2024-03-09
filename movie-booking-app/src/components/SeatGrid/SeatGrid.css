@@ -1,0 +1,40 @@
+.seat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.seat-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seat {
+    padding: 10px;
+    margin: 10px;
+    outline: #314C81 2px solid;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.seat:hover{
+    background-color: #0a54e9;
+}
+
+.seat.unselectable {
+    cursor: not-allowed;
+    background-color: #314c81;
+}
+
+.seat.seat.unselectable:hover{
+    background-color: red;
+}
+
+.seat.selected {
+    background-color: #31d7a9;
+    /* Color for selected seats */
+}

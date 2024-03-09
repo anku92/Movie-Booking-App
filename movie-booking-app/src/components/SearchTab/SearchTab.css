@@ -1,0 +1,211 @@
+.search-form {
+    background-color: rgba(10, 30, 94, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 50%;
+    width: 100%;
+}
+
+.search-bar {
+    width: 25%;
+}
+
+.search-header h6 {
+    margin-bottom: 20px;
+}
+
+.search-bar>.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: rgba(255, 255, 255, 0.5) solid 1px;
+}
+
+.search-btn {
+    background-color: transparent;
+    border: none;
+    color: #9fa7bf;
+    margin-right: 5px;
+    padding: 0 5px;
+}
+
+.search-bar input {
+    background: transparent;
+    color: gold;
+    border: none;
+    box-shadow: none;
+}
+
+.search-bar input:focus {
+    color: white;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.search-bar input::placeholder {
+    color: #9fa7bf;
+}
+
+.selectors {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    width: 75%;
+}
+
+.selectors > .form-group {
+    padding: 5px 0;
+}
+
+.selectors img {
+    margin: 0 10px;
+}
+
+.select-bar {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.select-bar:focus {
+    outline: none;
+}
+
+.select-bar option {
+    color: black;
+}
+
+.selectors label {
+    margin: 0;
+    padding-right: 15px;
+}
+
+.image-card {
+    color: white;
+    position: relative;
+    width: 80%;
+    height: 40vh;
+    top: -25%;
+    background-image: url('../../images/ticket-bg01.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.search-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.search-header {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 50%;
+    width: 100%;
+}
+
+.select-bar {
+    width: 100px;
+    padding-right: 5px;
+}
+
+
+@media only screen and (max-width: 1196px) {
+    .image-card {
+        width: 80%;
+    }
+
+    .search-tab {
+        padding: 30px;
+    }
+
+    .search-header h6 {
+        margin-bottom: 15px;
+    }
+
+    .search-form {
+        padding: 10px;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .search-bar {
+        width: 90%;
+    }
+
+    .selectors {
+        padding: 10px;
+        width: 100%;
+        font-size: 15px;
+        margin-top: 5px;
+    }
+}
+
+@media only screen and (max-width: 919px) {
+    .image-card{
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 826px) {
+   
+    .selectors {
+        height: 100%;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+
+@media only screen and (max-width: 620px) {
+    .image-card {
+        top: 50%;
+        height: auto;
+    }
+
+    .search-tab {
+        padding: 20px;
+    }
+
+     .search-header {
+        justify-content: flex-end;
+    }
+
+    .search-header h4 {
+        font-size: 15px;
+        height: auto;
+    }
+
+    .search-header h6 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 488px) {
+
+    .date,
+    .cinema {
+        padding-top: 10px;
+    }
+
+    .search-form {
+        padding: 10px;
+    }
+
+    .selectors{
+        justify-content: flex-start;
+    }
+}

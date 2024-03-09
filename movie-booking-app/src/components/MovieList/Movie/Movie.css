@@ -1,0 +1,132 @@
+.poster-img {
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+.poster-img:hover {
+    transform: scale(1.05);
+}
+
+.poster {
+    overflow: hidden;
+}
+
+.rating-percent {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 10px;
+}
+
+.rating img {
+    height: 25px;
+}
+
+.rating span {
+    padding: 5px;
+    font-weight: bold;
+    color: #dbe2fb;
+}
+
+.mov-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #0A1E5E;
+    background-clip: border-box;
+    border: none;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    /**/
+}
+
+/*  */
+.mov-card:hover .poster-img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    border: none;
+    background-color: #0A1E5E;
+}
+
+.mov-card a {
+    color: white;
+}
+
+.mov-card a:hover {
+    color: #31D7A9;
+    text-decoration: none;
+}
+
+
+.movie-list {
+    overflow: auto;
+    max-height: 800px;
+}
+
+/* Webkit (Chrome, Safari) */
+.movie-list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.movie-list::-webkit-scrollbar-thumb {
+    background-color: #3498db;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    /* Smooth transition for color change */
+    cursor: pointer;
+    /* Change cursor on hover */
+}
+
+.movie-list::-webkit-scrollbar-thumb:hover {
+    background-color: #2980b9;
+    /* Change color on hover */
+}
+
+/* Firefox */
+.movie-list::-moz-scrollbar {
+    width: 12px;
+}
+
+.movie-list::-moz-scrollbar-thumb {
+    background-color: #3498db;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    /* Smooth transition for color change */
+    cursor: pointer;
+    /* Change cursor on hover */
+}
+
+.movie-list::-moz-scrollbar-thumb:hover {
+    background-color: #2980b9;
+    /* Change color on hover */
+}
+
+
+@media only screen and (max-width: 620px){
+    .filter-msg{
+        margin-top: 150px;
+    }
+}
+
+@media only screen and (max-width: 488px){
+    .filter-msg{
+        margin-top: 200px;
+    }
+}
+
+@media only screen and (max-width: 305px){
+    .filter-msg{
+        margin-top: 230px;
+    }
+}

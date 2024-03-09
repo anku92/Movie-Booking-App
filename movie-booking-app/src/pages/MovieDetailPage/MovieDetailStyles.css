@@ -1,0 +1,31 @@
+.movie-detail-wrapper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    top: 50%;
+}
+
+.duration-area{
+    display: flex;
+}
+
+.movie-meta{
+    color: #9aace5;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+.movie-meta > h6, .item {
+    font-size: 14px;
+    margin: 5px 10px;
+}
+
+.movie-meta> H6{
+    border: solid 1px ;
+    padding: 6px 10px;
+    border-radius: 50px;
+}
