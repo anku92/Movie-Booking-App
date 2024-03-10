@@ -99,7 +99,7 @@ const UserProfilePage = () => {
             <strong>Mobile Number:</strong> {profile.mobile_number}
           </p>
           <p className="card-text">
-            <strong>Date of Birth:</strong> {profile.date_of_birth.tos}
+            <strong>Date of Birth:</strong> {profile.date_of_birth}
           </p>
           <p className="card-text">
             <strong>Address:</strong> {profile.address}
