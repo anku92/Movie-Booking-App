@@ -83,7 +83,7 @@ const UserProfilePage = () => {
           ) : profile && !isEditMode ? (
             <div className="card">
               <div className="card-header">
-                <h2 className="mb-0">User Profile</h2>
+                <h2 className="mb-0">User{console.log(profile)} Profile</h2>
               </div>
               <div className="card-body text-light">
                 <p className="card-text">
@@ -132,71 +132,71 @@ const UserProfilePage = () => {
                   />
                 </div>
                 <div className="form-group">
-                      <label htmlFor="email">Email:</label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        value={editedProfile.email}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="username">Username:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="username"
-                        name="username"
-                        value={editedProfile.username}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="password">Password:</label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        name="password"
-                        value={editedProfile.password || ''}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="mobile">Mobile:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="mobile"
-                        name="mobile"
-                        value={editedProfile.mobile}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="date_of_birth">Date of Birth:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="date_of_birth"
-                        name="date_of_birth"
-                        value={editedProfile.date_of_birth}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="address">Address:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="address"
-                        name="address"
-                        value={editedProfile.address}
-                        onChange={handleChange}
-                      />
-                    </div>
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={editedProfile.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="username">Username:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="username"
+                    name="username"
+                    value={editedProfile.username}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    name="password"
+                    value={editedProfile.password || ''}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="mobile">Mobile:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="mobile"
+                    name="mobile"
+                    value={editedProfile.mobile}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="date_of_birth">Date of Birth:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="date_of_birth"
+                    name="date_of_birth"
+                    value={editedProfile.date_of_birth}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="address">Address:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address"
+                    name="address"
+                    value={editedProfile.address}
+                    onChange={handleChange}
+                  />
+                </div>
                 <button className="btn btn-primary mr-2" onClick={handleSaveEdit}>
                   Save
                 </button>
