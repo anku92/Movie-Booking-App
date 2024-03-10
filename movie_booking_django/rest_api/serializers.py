@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "password",
             "email",
-            "mobile_number",
+            "mobile",
             "date_of_birth",
             "address",
             "is_staff",
@@ -55,7 +55,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             "email",
             "username",
             "password",
-            "mobile_number",
+            "mobile",
             "date_of_birth",
             "address",
         )
@@ -64,8 +64,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get("name", instance.name)
         instance.username = validated_data.get("username", instance.username)
         instance.email = validated_data.get("email", instance.email)
-        instance.mobile_number = validated_data.get(
-            "mobile_number", instance.mobile_number
+        instance.mobile = validated_data.get(
+            "mobile", instance.mobile
         )
         instance.date_of_birth = validated_data.get(
             "date_of_birth", instance.date_of_birth

@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Navbar from '../../components/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
+import { Profiler } from 'react';
 
 
 const SignupPage = () => {

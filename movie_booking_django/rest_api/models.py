@@ -25,12 +25,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, validators=[MinLengthValidator(3)])
     username = models.CharField(max_length=30, unique=True, validators=[MinLengthValidator(5)])
     email = models.EmailField(max_length=254, unique=True)
-    mobile_number_regex = RegexValidator(
-        regex=r"^\d{10,12}$",
-        message="Mobile number must be entered with 10 to 12 digits.",
+    mobile_regex = RegexValidator(
+        regex=r"^\d{10}$",
+        message="Mobile number must be 10 digits.",
     )
-    mobile_number = models.CharField(
-        validators=[mobile_number_regex], max_length=12, blank=True
+    mobile = models.CharField(
+        validators=[mobile_regex], max_length=12, blank=True
     )
 
     date_of_birth = models.DateField(null=True, blank=True)
