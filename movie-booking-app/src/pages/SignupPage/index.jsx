@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Navbar from '../../components/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
-import { Profiler } from 'react';
 
 
 const SignupPage = () => {
@@ -53,7 +52,7 @@ const SignupPage = () => {
         email: Yup.string().required('email is required')
             .email('please provide valid email'),
         mobile: Yup.string().required('mobile number is required')
-            .matches(/^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/, "Invalid phone number"),
+            .matches(/^((0|\+[0-9]{1,5})?([7-9][0-9]{9}))$/, "Invalid phone number"),
         username: Yup.string().required('username is required')
             .min(5, 'add atleast 5 char')
             .max(8, 'max char limit is 12'),

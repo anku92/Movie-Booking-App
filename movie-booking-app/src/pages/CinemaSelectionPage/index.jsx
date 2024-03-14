@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./CinemaSelectionStyles.css";
+import "./CinemaSelectionPage.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Movie from '../../components/MovieList/Movie';

@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.png'
 import './Navbar.css';
+import axios from 'axios';
 
 const Navbar = () => {
     const [lastScrollTop, setLastScrollTop] = useState(0);
     const [isHeaderHidden, setHeaderHidden] = useState(false);
-
-
     const [loginStatus, setLoginStatus] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         let token = localStorage.getItem("access_token")
@@ -17,14 +17,30 @@ const Navbar = () => {
             setLoginStatus(false);
         } else {
             setLoginStatus(true);
+            fetchUserProfile()
         }
     }, [loginStatus]);
 
-    const onLogoutHandler = () => {
-        localStorage.clear();
-        setLoginStatus(false);
-    };
+    const fetchUserProfile = async () => {
+        try {
+            const user_id = localStorage.getItem('user_id');
+            const access_token = localStorage.getItem('access_token');
+            const response = await axios.get(`http://127.0.0.1:8000/api/users/${user_id}/`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            });
 
+            if (response.status === 200) {
+                const user = response.data;
+                setIsAdmin(user.is_staff && user.is_superuser);
+            } else {
+                console.error('Error fetching user profile');
+            }
+        } catch (error) {
+            console.error('Error fetching user profile', error);
+        }
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,6 +59,12 @@ const Navbar = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, [lastScrollTop]);
+
+    const onLogoutHandler = () => {
+        localStorage.clear();
+        setLoginStatus(false);
+        setIsAdmin(false)
+    };
 
     return (
         <>
@@ -65,16 +87,19 @@ const Navbar = () => {
                     <div className="nav-links">
                         {
                             loginStatus ? (
-                                <Link className="navlink text-white" to="/profile">Profile</Link>
+                                <>
+                                    <div className='d-flex align-items-center justify-content-center'>
+                                        <Link className="navlink mr-3 text-white" to="/profile">Profile</Link>
+                                        {isAdmin && <Link className="navlink text-white" to="/add-movie">Add Movie</Link>}
+
+                                    </div>
+                                    <Link className="join-btn" onClick={onLogoutHandler}>Log Out</Link>
+                                </>
                             ) : (
-                                <Link className="navlink text-white" to="/login">Login</Link>
-                            )
-                        }
-                        {
-                            loginStatus ? (
-                                <Link className="join-btn" onClick={onLogoutHandler}>Log Out</Link>
-                            ) : (
-                                <Link className="join-btn" to="/signup">Join Us</Link>
+                                <>
+                                    <Link className="navlink text-white" to="/login">Login</Link>
+                                    <Link className="join-btn" to="/signup">Join Us</Link>
+                                </>
                             )
                         }
                     </div>

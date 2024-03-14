@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
-import './MovieDetailStyles.css';
+import './MovieDetailPage.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaRegClock } from "react-icons/fa6";
 import { BsCalendar2Date } from "react-icons/bs";

@@ -1,0 +1,59 @@
+.acc-group label {
+    font-size: 14px;
+}
+
+.acc-group input,
+.acc-group textarea,
+.acc-group select {
+    background: transparent;
+    padding-left: 5px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    box-shadow: none;
+    border-bottom: rgba(255, 255, 255, 0.5) solid 1px;
+}
+
+.acc-group input:focus,
+.acc-group textarea:focus,
+.acc-group select:focus {
+    color: white;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-bottom: rgba(49, 215, 169, 1) solid 1px;
+}
+
+.acc-group input::placeholder,
+.acc-group textarea::placeholder {
+    color: grey;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.acc-group input:focus::placeholder,
+.acc-group textarea:focus::placeholder {
+    color: #9fa7bf;
+}
+
+.release-date{
+    text-transform: uppercase;
+}
+
+.release-date::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.acc-group option{
+    background: #122256;
+}
+
+.acc-group textarea {
+    resize: none;
+}
+
+.acc-group select{
+    cursor: pointer;
+}

@@ -77,7 +77,8 @@
 }
 
 .select-bar option {
-    color: black;
+    color: white;
+    background: #122256;
 }
 
 .selectors label {

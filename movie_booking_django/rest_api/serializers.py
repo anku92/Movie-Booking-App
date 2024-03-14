@@ -38,45 +38,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-# class ProfileUpdateSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(
-#         write_only=True,
-#         style={"input_type": "password"},
-#         validators=[
-#             validators.MinLengthValidator(5),
-#             validators.MaxLengthValidator(12),
-#         ],
-#     )
-
-#     class Meta:
-#         model = User
-#         fields = (
-#             "name",
-#             "email",
-#             "username",
-#             "password",
-#             "mobile",
-#             "date_of_birth",
-#             "address",
-#         )
-
-#     def update(self, instance, validated_data):
-#         instance.name = validated_data.get("name", instance.name)
-#         instance.username = validated_data.get("username", instance.username)
-#         instance.email = validated_data.get("email", instance.email)
-#         instance.mobile = validated_data.get("mobile", instance.mobile)
-#         instance.date_of_birth = validated_data.get(
-#             "date_of_birth", instance.date_of_birth
-#         )
-#         instance.address = validated_data.get("address", instance.address)
-#         password = validated_data.get("password")
-#         if password:
-#             instance.set_password(password)
-
-#         instance.save()
-#         return instance
-
-
 class ProfileUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         write_only=True,
@@ -98,12 +59,14 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             "mobile",
             "date_of_birth",
             "address",
+            "is_staff",
+            "is_superuser"
         )
         # Add the following line to make fields not required
         extra_kwargs = {
-            'name': {'required': False},
-            'email': {'required': False},
-            'username': {'required': False},
+            "name": {"required": False},
+            "email": {"required": False},
+            "username": {"required": False},
         }
 
     def update(self, instance, validated_data):
@@ -118,8 +81,6 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-
-
 
 
 class LoginSerializer(serializers.Serializer):

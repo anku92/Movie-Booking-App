@@ -7,6 +7,7 @@ import MovieDetailPage from "./pages/MovieDetailPage";
 import TicketBookingPage from "./pages/TicketBookingPage";
 import CinemaSelectionPage from './pages/CinemaSelectionPage'
 import UserProfilePage from "./pages/UserProfilePage";
+import AddMoviePage from "./pages/AddMoviePage";
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
         <Route path="/:id/cinema-list" element={<CinemaSelectionPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/add-movie" element={<AddMoviePage />} />
       </Routes>
     </Router>
   );

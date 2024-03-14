@@ -1,0 +1,4 @@
+.date-picker::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  font-size: 20px;
+}

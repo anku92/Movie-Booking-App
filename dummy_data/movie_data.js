@@ -14,7 +14,7 @@
         "director": "Christopher Nolan",
         "language": "English",
         "tomato_meter": 75,
-        "audience_meter": 45
+        "audience_meter": 88
     },
     {
         "id": 2,
@@ -41,7 +41,7 @@
         "poster": "https://pixner.net/boleto/demo/assets/images/movie/movie03.jpg",
         "rating": "9.0",
         "starring_actor": "Christian Bale",
-        "director": "Christopher Nolan",
+        "director": "Jason Brody",
         "language": "English",
         "tomato_meter": 88,
         "audience_meter": 74

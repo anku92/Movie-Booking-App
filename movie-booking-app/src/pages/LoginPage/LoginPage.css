@@ -22,7 +22,7 @@
     background: transparent;
     padding-left: 5px;
     font-size: 14px;
-    color: gold;
+    color: white;
     border: none;
     box-shadow: none;
     border-bottom: rgba(255, 255, 255, 0.5) solid 1px;
@@ -39,6 +39,7 @@
 .acc-group>input::placeholder {
     color: grey;
     font-size: 13px;
+    font-style: italic;
 }
 
 .acc-group>input:focus::placeholder {

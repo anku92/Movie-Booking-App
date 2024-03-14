@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './UserProfilePage.css';
 
 const UserProfilePage = () => {
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ const UserProfilePage = () => {
           ) : profile && !isEditMode ? (
             <div className="card">
               <div className="card-header">
-                <h2 className="mb-0">User{console.log(profile)} Profile</h2>
+                <h2 className="mb-0">{console.log(profile)}User Profile</h2>
               </div>
               <div className="card-body text-light">
                 <p className="card-text">
@@ -120,7 +121,7 @@ const UserProfilePage = () => {
                 <h2 className="mb-0">Edit Profile</h2>
               </div>
               <div className="card-body text-light">
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="name">Name:</label>
                   <input
                     type="text"
@@ -131,7 +132,7 @@ const UserProfilePage = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="email">Email:</label>
                   <input
                     type="email"
@@ -142,7 +143,7 @@ const UserProfilePage = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="username">Username:</label>
                   <input
                     type="text"
@@ -153,7 +154,7 @@ const UserProfilePage = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="password">Password:</label>
                   <input
                     type="password"
@@ -164,7 +165,7 @@ const UserProfilePage = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="mobile">Mobile:</label>
                   <input
                     type="text"
@@ -175,18 +176,18 @@ const UserProfilePage = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="date_of_birth">Date of Birth:</label>
                   <input
-                    type="text"
-                    className="form-control"
+                    type="date"
+                    className="form-control date-picker"
                     id="date_of_birth"
                     name="date_of_birth"
                     value={editedProfile.date_of_birth}
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group acc-group">
                   <label htmlFor="address">Address:</label>
                   <input
                     type="text"
@@ -209,7 +210,7 @@ const UserProfilePage = () => {
             <p>Error loading profile</p>
           )}
           <div className="mt-3">
-            <Link to="/" className="btn btn-outline-primary">
+            <Link to="/" className="join-btn rounded px-2">
               Go to Home
             </Link>
           </div>
