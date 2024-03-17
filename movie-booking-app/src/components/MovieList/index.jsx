@@ -18,10 +18,10 @@ const MovieList = ({ filters }) => {
         const response = await axios.get("http://127.0.0.1:8000/api/movies/filter/", {
           params: { keyword, city, cinema, genre },
         });
-
+  
         if (response.status === 200) {
           const responseData = response.data;
-
+  
           if (responseData.movies) {
             setMovies(responseData.movies);
             setCinemas([]);
@@ -35,21 +35,29 @@ const MovieList = ({ filters }) => {
                     (!cinema || cinemaData.name.toLowerCase() === cinema.toLowerCase())
                 )
                 : [];
-
+  
               if (filteredCinemas.length > 0) {
-                filteredMovies = filteredCinemas.map((cinemaData) => cinemaData.movies).flat();
+                // Collect movies from all filtered cinemas
+                const allMovies = filteredCinemas.map((cinemaData) => cinemaData.movies).flat();
+                // Remove duplicates from movies
+                const uniqueMovies = allMovies.filter((movie, index, self) =>
+                  index === self.findIndex((m) => (
+                    m.title.toLowerCase() === movie.title.toLowerCase()
+                  ))
+                );
+                filteredMovies = uniqueMovies;
                 setSelectedCity(city);
                 setSelectedCinema(cinema);
               }
             }
-
+  
             // Filter movies based on the keyword
             const keywordFilteredMovies = responseData.movies && Array.isArray(responseData.movies)
               ? responseData.movies.filter((movie) =>
                 movie.title.toLowerCase().includes(keyword.toLowerCase())
               )
               : [];
-
+  
             // Set the final list of movies
             setMovies(keywordFilteredMovies.length > 0 ? keywordFilteredMovies : filteredMovies);
             setCinemas(filteredMovies.length > 0 ? filteredMovies : []);
@@ -63,7 +71,7 @@ const MovieList = ({ filters }) => {
         setLoading(false);
       }
     };
-
+  
     fetchMovies();
   }, [keyword, city, cinema, genre]);
 
