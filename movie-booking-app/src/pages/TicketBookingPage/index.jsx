@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import SeatGrid from '../../components/SeatGrid';
 import './TicketBookingPage.css';
@@ -12,16 +12,21 @@ const TicketBookingPage = () => {
     const { id } = useParams();
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [numSeats, setNumSeats] = useState(1);
-    const { state } = useLocation()
-    const { movie, cinema, schedule } = state
+    const { state: { movie, cinema, schedule } } = useLocation()
     const currentDateTime = new Date();
     const [selectedDate, setSelectedDate] = useState(currentDateTime);
     const unselectableSeatsGrid1 = ['A1', 'B2'];
     const unselectableSeatsGrid2 = ['B3', 'A6', 'C5'];
     const unselectableSeatsGrid3 = ['A7', 'B8'];
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const price = 250
 
+
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+        setIsLoggedIn(!!token);
+    }, []);
 
     const handleSelectSeat = (seat) => {
         const index = selectedSeats.indexOf(seat);
@@ -54,17 +59,27 @@ const TicketBookingPage = () => {
 
 
     const handleBookTicket = async () => {
+        if (!isLoggedIn) {
+            // Redirect user to login page if not logged in
+            nav('/login');
+            return;
+        }
+
         if (selectedSeats.length > 0) {
             try {
+
+                const formattedDate = `${selectedDate.getDate()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getFullYear()}`
+
                 const ticketData = {
                     cinema: cinema.name,
                     movie: movie.title,
                     seats: selectedSeats,
                     num_seats: selectedSeats.length,
                     schedule: schedule,
-                    show_date: selectedDate.toJSON().split("T")[0],
+                    show_date: formattedDate,
                     ticket_price: selectedSeats.length * price
                 };
+                console.log(ticketData)
 
                 const response = await fetch('http://127.0.0.1:8000/api/ticket/add/', {
                     method: 'POST',
@@ -73,8 +88,6 @@ const TicketBookingPage = () => {
                     },
                     body: JSON.stringify(ticketData),
                 });
-
-                console.log(ticketData)
 
                 if (response.ok) {
                     openModal();
@@ -91,16 +104,74 @@ const TicketBookingPage = () => {
         }
     };
 
+    const renderDateOptions = () => {
+        const options = [];
+        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+        for (let i = 0; i < 5; i++) {
+            const date = new Date(currentDateTime);
+            date.setDate(date.getDate() + i);
+            const dayOfMonth = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            options.push(
+                <option className='text-dark' key={i} value={date.toDateString()}>
+                    {`${dayOfMonth}/${month}/${year}`}
+                </option>
+            );
+        }
+        return options;
+    };
+
+    const formatDate = (date) => {
+        const current_day = new Date();
+        const weekDay = date.toDateString().toUpperCase().split(" ")[0]
+        const day = date.toDateString().toUpperCase().split(" ").splice(1).join(" ")
+
+        if (
+            date.getDate() === current_day.getDate() &&
+            date.getMonth() === current_day.getMonth()
+        ) {
+            return 'TODAY';
+        } else {
+            return `${weekDay}, ${day}`
+        }
+    };
+
+    const renderSeatGrids = () => {
+        const grids = [
+            { rows: ['A', 'B', 'C'], columns: ['1', '2'], unselectableSeats: unselectableSeatsGrid1 },
+            { rows: ['A', 'B', 'C'], columns: ['3', '4', '5', '6'], unselectableSeats: unselectableSeatsGrid2 },
+            { rows: ['A', 'B', 'C'], columns: ['7', '8'], unselectableSeats: unselectableSeatsGrid3 }
+        ];
+
+        return grids.map((grid, index) => (
+            <SeatGrid
+                key={index}
+                rows={grid.rows}
+                columns={grid.columns}
+                onSelectSeat={handleSelectSeat}
+                selectedSeats={selectedSeats}
+                unselectableSeats={grid.unselectableSeats}
+            />
+        ));
+    };
+
+
     return (
         <>
             <Navbar />
-            <div className="booking">
-                <div className="banner-bg text-center">
-                    <h3>{movie.title}</h3>
-                    <h5>{cinema.name} | {movie.genre} | {movie.language}</h5>
+            <div className="ticket-upper">
+                <div className="banner-bg">
+                    <div className="banner-text">
+                        <h2>{cinema.name}</h2>
+                        <div className="bottom-border mt-0 mb-2"></div>
+                        <h3>{movie.title}</h3>
+                        <h5>{movie.genre} | {movie.language}</h5>
+                    </div>
                 </div>
 
-                <div className="timings">
+                <div className="timing-container">
                     <button
                         style={{ position: "relative", right: "250px" }}
                         onClick={backToCinemaList}
@@ -109,9 +180,12 @@ const TicketBookingPage = () => {
                         &#11164; BACK
                     </button>
                     <div className="timing">
-                        <div className='mb-1'>{selectedDate.toDateString()}</div>
-                        <hr style={{ width: "200px", border: "teal 1px solid" }} className='m-0 p-0' />
-                        <div className='mt-2'><span className='teal'>Selected Showtime: </span>{schedule}</div>
+                        <div>{formatDate(selectedDate)}</div>
+                        <hr style={{ width: "220px", border: "teal 1px solid" }} className='mt-1 mb-2' />
+                        <div>
+                            <span className='teal font-weight-bold'>Selected Showtime: </span>
+                            {schedule} hr
+                        </div>
                     </div>
                 </div>
                 <div className="screen-area">
@@ -123,46 +197,31 @@ const TicketBookingPage = () => {
                     <h5 className="teal">SILVER PLUS</h5>
                     <div className='bottom-border'></div>
                 </div>
-
             </div>
 
-            <div className="ticket-bottom text-white">
-                <div className='seat-selector'>
+            <div className="ticket-lower text-white">
+
+                <div className="show-schedule">
                     <div className="seat-number">
-                        <span>Select Number of Seats:</span>
+                        <span>Number of Seats:</span>
                         <select id="numSeats" value={numSeats} onChange={handleNumSeatsChange}>
                             {[1, 2, 3, 4, 5].map((num) => (
-                                <option className='text-dark font-weight-bold' key={num} value={num}>
+                                <option className='text-dark' key={num} value={num}>
                                     {num}
                                 </option>
                             ))}
                         </select>
                     </div>
+                    <div className=" ml-4 date-selector">
+                        <span>Date:</span>
+                        <select value={selectedDate.toDateString()} onChange={(e) => setSelectedDate(new Date(e.target.value))}>
+                            {renderDateOptions()}
+                        </select>
+                    </div>
+
                 </div>
                 <div className='seat-grid'>
-                    <SeatGrid
-                        rows={['A', 'B', 'C']}
-                        columns={['1', '2']}
-                        onSelectSeat={handleSelectSeat}
-                        selectedSeats={selectedSeats}
-                        unselectableSeats={unselectableSeatsGrid1}
-                    />
-
-                    <SeatGrid
-                        rows={['A', 'B', 'C']}
-                        columns={['3', '4', '5', '6']}
-                        onSelectSeat={handleSelectSeat}
-                        selectedSeats={selectedSeats}
-                        unselectableSeats={unselectableSeatsGrid2}
-                    />
-
-                    <SeatGrid
-                        rows={['A', 'B', 'C']}
-                        columns={['7', '8']}
-                        onSelectSeat={handleSelectSeat}
-                        selectedSeats={selectedSeats}
-                        unselectableSeats={unselectableSeatsGrid3}
-                    />
+                    {renderSeatGrids()}
                 </div>
                 <ul className="showcase">
                     <li>
