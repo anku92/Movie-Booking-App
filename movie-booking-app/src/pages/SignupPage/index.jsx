@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Navbar from '../../components/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
+import Endpoints from '../../api/Endpoints';
 
 
 const SignupPage = () => {
@@ -24,7 +25,7 @@ const SignupPage = () => {
     }
 
     const onSubmit = (values) => {
-        axios.post('http://127.0.0.1:8000/api/signup/', values)
+        axios.post(Endpoints.SIGNUP, values)
             .then((response) => {
                 setRequestResponse({
                     textMessage: "Registeration Successful ",
@@ -46,21 +47,23 @@ const SignupPage = () => {
     }
 
     const validationSchema = Yup.object({
-        name: Yup.string().required('name is required')
-            .min(3, 'add atleast 3 char')
-            .max(20, 'max char limit is 20'),
-        email: Yup.string().required('email is required')
-            .email('please provide valid email'),
-        mobile: Yup.string().required('mobile number is required')
+        name: Yup.string()
+            .required('Name is required')
+            .min(3, 'Add at least 3 characters')
+            .max(20, 'Maximum character limit is 20'),
+        email: Yup.string()
+            .required('Email is required')
+            .email('Please provide a valid email'),
+        mobile: Yup.string()
+            .required('Mobile number is required')
             .matches(/^((0|\+[0-9]{1,5})?([7-9][0-9]{9}))$/, "Invalid phone number"),
-        username: Yup.string().required('username is required')
-            .min(5, 'add atleast 5 char')
-            .max(8, 'max char limit is 12'),
-        password: Yup.string().required('password is required')
-            .min(5, 'add atleast 5 char')
-            .max(12, 'max char limit is 12')
-    })
-
+        username: Yup.string().required('Username is required')
+            .min(5, 'Add at least 5 characters')
+            .max(8, 'Maximum character limit is 12'),
+        password: Yup.string().required('Password is required')
+            .min(5, 'Add at least 5 characters')
+            .max(12, 'Maximum character limit is 12')
+    });
 
     return (
         <>
@@ -71,7 +74,7 @@ const SignupPage = () => {
                         <div className="col-md-3"></div>
                         <div className="col-md-6">
                             <div className='wrapper'>
-                            <div className={requestResponse.alertClass}>
+                                <div className={requestResponse.alertClass}>
                                     {requestResponse.textMessage}
                                     {loading && (<span className="spinner-border spinner-border-sm text-primary"></span>)}
                                 </div>

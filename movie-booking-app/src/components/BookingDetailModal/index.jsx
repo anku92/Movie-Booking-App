@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { date } from 'yup';
 
 const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats, numSeats, schedule, showDate, price }) => {
 
@@ -55,8 +54,8 @@ const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats,
                 </table>
               </div>
             </div>
-          <p className='font-weight-bold m-0'>Show time: <span className='text-success'>{schedule}</span></p>
-          <p className='font-weight-bold m-0'>Show Date: <span className='text-danger'>{showDate}</span></p>
+            <p className='font-weight-bold m-0'>Show time: <span className='text-success'>{schedule}</span></p>
+            <p className='font-weight-bold m-0'>Show Date: <span className='text-danger'>{showDate}</span></p>
           </div>
         </div>
         <div className="modal-footer">

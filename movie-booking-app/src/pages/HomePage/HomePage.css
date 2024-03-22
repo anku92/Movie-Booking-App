@@ -74,13 +74,5 @@
 
     .bottom-list .container {
         top: 160px;
-        ;
-    }
-}
-
-@media only screen and (max-width: 488px) {
-    .bottom-list .container {
-        top: 210px;
-        ;
     }
 }

@@ -5,6 +5,7 @@ import './TicketBookingPage.css';
 import screen from '../../images/screen-thumb.png';
 import Navbar from '../../components/Navbar';
 import BookingDetailsModal from '../../components/BookingDetailModal';
+import Endpoints from '../../api/Endpoints';
 
 
 const TicketBookingPage = () => {
@@ -64,12 +65,12 @@ const TicketBookingPage = () => {
             nav('/login');
             return;
         }
-
+    
         if (selectedSeats.length > 0) {
             try {
-
+                const userId = localStorage.getItem('user_id'); // Retrieve user ID from localStorage
                 const formattedDate = `${selectedDate.getDate()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getFullYear()}`
-
+    
                 const ticketData = {
                     cinema: cinema.name,
                     movie: movie.title,
@@ -77,18 +78,19 @@ const TicketBookingPage = () => {
                     num_seats: selectedSeats.length,
                     schedule: schedule,
                     show_date: formattedDate,
-                    ticket_price: selectedSeats.length * price
+                    ticket_price: selectedSeats.length * price,
+                    user: userId // Include user ID here
                 };
                 console.log(ticketData)
-
-                const response = await fetch('http://127.0.0.1:8000/api/ticket/add/', {
+    
+                const response = await fetch(Endpoints.CREATE_TICKET, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(ticketData),
                 });
-
+    
                 if (response.ok) {
                     openModal();
                 } else {
@@ -156,7 +158,6 @@ const TicketBookingPage = () => {
             />
         ));
     };
-
 
     return (
         <>

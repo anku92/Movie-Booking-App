@@ -46,15 +46,13 @@
     border: none;
     border-radius: 0.25rem;
     overflow: hidden;
-    /**/
 }
 
-/*  */
 .mov-card:hover .poster-img {
     transform: scale(1.05);
 }
 
-.card-body {
+.mov-card > .card-body {
     border: none;
     background-color: #0A1E5E;
 }
@@ -68,10 +66,13 @@
     text-decoration: none;
 }
 
+.mov-card .card-title {
+    font-size: 19px;
+}
 
 .movie-list {
     overflow: auto;
-    max-height: 800px;
+    max-height: 700px;
 }
 
 /* Webkit (Chrome, Safari) */
@@ -83,14 +84,11 @@
     background-color: #3498db;
     border-radius: 6px;
     transition: background-color 0.3s;
-    /* Smooth transition for color change */
     cursor: pointer;
-    /* Change cursor on hover */
 }
 
 .movie-list::-webkit-scrollbar-thumb:hover {
     background-color: #2980b9;
-    /* Change color on hover */
 }
 
 /* Firefox */
@@ -102,31 +100,79 @@
     background-color: #3498db;
     border-radius: 6px;
     transition: background-color 0.3s;
-    /* Smooth transition for color change */
     cursor: pointer;
-    /* Change cursor on hover */
 }
 
 .movie-list::-moz-scrollbar-thumb:hover {
     background-color: #2980b9;
-    /* Change color on hover */
 }
 
+
+.filter-msg{
+    color: gold;
+    text-align: center;
+    font-size: 16px;
+    padding-bottom: 10px;
+}
+
+.error-msg{
+    color: red;
+    margin-top: -40px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.loading-api{
+    color: blue;
+    margin-top: -40px;
+    margin-bottom: 30px;
+}
+
+.movie-header{
+    font-weight: bold;
+    color: white;
+}
 
 @media only screen and (max-width: 620px){
-    .filter-msg{
-        margin-top: 150px;
+    .loading-api, .error-msg{
+        margin-top: 120px;
     }
 }
 
-@media only screen and (max-width: 488px){
-    .filter-msg{
+@media only screen and (max-width: 499.9px){
+    .loading-api, .error-msg{
+        margin-top: 170px;
+    }
+
+    .movie-header{
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (max-width: 305.9px){
+    .loading-api, .error-msg{
         margin-top: 200px;
+        font-size: 14px;
     }
 }
-
-@media only screen and (max-width: 305px){
-    .filter-msg{
-        margin-top: 230px;
+@media only screen and (max-width: 296px){
+    .loading-api, .error-msg{
+        margin-top: 240px;
+        font-size: 14px;
     }
 }
+@media only screen and (min-width: 768px) and (max-width: 991.9px) {
+    .mov-card .card-title{
+        font-size: 15px;
+        line-height: 22px;
+    }
+    .mov-card .card-body{
+        padding: 15px 11px;
+    }
+    .rating-percent{
+        font-size: 13px;
+    }
+    .rating img{
+        height: 19px;
+    }
+  }

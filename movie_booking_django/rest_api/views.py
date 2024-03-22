@@ -49,12 +49,10 @@ class UpdateMovieView(APIView):
 
     def put(self, request, pk):
         movie = get_object_or_404(Movie, pk=pk)
-        serialized = MovieSerializer(movie, data=request.data)
+        serialized = MovieSerializer(movie, data=request.data, partial=True)
         if serialized.is_valid():
             serialized.save()
-            return Response(
-                {"Movie updated": serialized.data}, status=status.HTTP_200_OK
-            )
+            return Response({"Movie updated": request.data}, status=status.HTTP_200_OK)
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
@@ -81,7 +79,6 @@ class MovieFilterAPI(APIView):
                 cinema_ids.extend(movie.cinemas.values_list("id", flat=True))
 
             cinemas = Cinema.objects.filter(id__in=cinema_ids)
-
             serialized_movies = []
             for movie in movies:
                 serialized_movie = MovieSerializer(movie).data
@@ -91,9 +88,7 @@ class MovieFilterAPI(APIView):
                 serialized_movies.append(serialized_movie)
 
             return Response(
-                {
-                    "movies": serialized_movies,
-                },
+                {"movies": serialized_movies},
                 status=status.HTTP_200_OK,
             )
         else:
@@ -138,10 +133,7 @@ class AddCinemaView(APIView):
 
         if serialized.is_valid():
             cinema_instance = serialized.save()
-            return Response(
-                {"Cinema added": serialized.data},
-                status=status.HTTP_201_CREATED,
-            )
+            return Response({"added": serialized.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -169,21 +161,20 @@ class UpdateCinemaView(APIView):
             # Update movies
             movie_ids = serialized_cinema.validated_data.get("movies", [])
             cinema.movies.set(movie_ids)
-
             cinema.save()
 
             # Serialize and return updated data
             updated_serialized_cinema = CinemaSerializer(cinema)
             return Response(
                 {
-                    "message": "Cinema updated successfully",
+                    "message": "successfully updated",
                     "data": updated_serialized_cinema.data,
                 },
                 status=status.HTTP_200_OK,
             )
 
         return Response(
-            {"message": "Failed to update cinema", "errors": serialized_cinema.errors},
+            {"message": "cinema update failed", "errors": serialized_cinema.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -191,8 +182,7 @@ class UpdateCinemaView(APIView):
         cinema = get_object_or_404(Cinema, id=cinema_id)
         cinema.delete()
         return Response(
-            {"message": "Cinema deleted successfully"},
-            status=status.HTTP_204_NO_CONTENT,
+            {"message": "Cinema deleted"}, status=status.HTTP_204_NO_CONTENT
         )
 
 
@@ -231,7 +221,6 @@ class UserCreateView(APIView):
                 "access": str(refresh.access_token),
             }
             return Response(data, status=status.HTTP_201_CREATED)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -264,40 +253,19 @@ class LoginView(APIView):
             data = {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
-                "user_id": int(user.id)
+                "user_id": int(user.id),
             }
             return Response(data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 
 # # ---------------------- TICKET VIEW BELOW ----------------------
-
-
 class TicketCreateView(APIView):
     def post(self, request, *args, **kwargs):
-        user = request.user
-
-        serializer = TicketSerializer(data=request.data)
-
+        data = request.data
+        serializer = TicketSerializer(data=data)
         if serializer.is_valid():
-            try:
-                ticket_data = {
-                    "cinema": serializer.validated_data["cinema"],
-                    "movie": serializer.validated_data["movie"],
-                    "seats": serializer.validated_data["seats"],
-                    "num_seats": serializer.validated_data["num_seats"],
-                    "schedule": serializer.validated_data["schedule"],
-                    "show_date": serializer.validated_data["show_date"],
-                    "user": user,
-                }
-
-                ticket = Ticket.objects.create(**ticket_data)
-
-                ticket_serializer = TicketSerializer(ticket)
-                return Response(ticket_serializer.data, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                return Response(
-                    {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

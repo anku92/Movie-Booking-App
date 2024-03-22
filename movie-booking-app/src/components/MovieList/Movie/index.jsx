@@ -9,7 +9,7 @@ const Movie = (props) => {
     const { id, title, poster, tomato_meter, audience_meter } = props.data
 
     return (
-        <div className="col-lg-3">
+        <div className="col-md-3">
             <div className="mov-card mb-4">
                 <div className="poster">
                     <Link to={'/' + id}>
@@ -20,7 +20,8 @@ const Movie = (props) => {
                     <h5 className="font-weight-bold card-title">
                         <Link to={'/' + id}>{title}</Link>
                     </h5>
-                    <hr style={{ "borderColor": "white", "borderStyle": "dashed" }} />
+                    {/* <div className="dropdown-divider"></div> */}
+                    <div className="w-100 top-border"></div>
                     <div className="rating-percent">
                         <div className="rating">
                             <img src={tomato_icon} alt="tomato" />

@@ -60,7 +60,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             "date_of_birth",
             "address",
             "is_staff",
-            "is_superuser"
+            "is_superuser",
         )
         # Add the following line to make fields not required
         extra_kwargs = {
@@ -122,7 +122,6 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = [
             "id",
-            "user",
             "cinema",
             "movie",
             "seats",
@@ -130,5 +129,5 @@ class TicketSerializer(serializers.ModelSerializer):
             "schedule",
             "show_date",
             "ticket_price",
+            "user",
         ]
-        read_only_fields = ["id", "user"]

@@ -1,31 +1,115 @@
-.movie-detail-wrapper{
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+.movie-wrapper{
     position: relative;
-    top: 50%;
+    top: 190px;
+}
+.movie-detail-wrapper {
+    color: white;
+    padding: 0;
+    margin: 0;
 }
 
-.duration-area{
-    display: flex;
-}
-
-.movie-meta{
+.movie-meta {
     color: #9aace5;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: flex-start;
+}
+
+.movie-meta > p{
+    text-transform: uppercase;
+    font-size: 13px;
+    margin: 0;
+}
+
+.movie-meta>h6 {
+    box-shadow: 0 0 0 1px rgba(154, 172, 229, 0.5);
+    padding: 5px 15px;
+    border-radius: 20px;
+    line-height: 20px;
+    margin-top: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.movie-duration {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.movie-poster{
+    object-fit: contain;
+    object-position: center center;
+    width: 235px;
+    height: 330px;
+}
+
+.time-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-detail>span {
+    margin-left: 6px;
+    font-size: 13px;
 
 }
 
-.movie-meta > h6, .item {
-    font-size: 14px;
-    margin: 5px 10px;
+.stripe-bg{
+    background-color: #032055;
 }
 
-.movie-meta> H6{
-    border: solid 1px ;
-    padding: 6px 10px;
-    border-radius: 50px;
+.stripe-bg > .container {
+    height: 25vh;
+}
+
+.proceed-btn{
+    position: relative;
+    z-index: 1000;
+}
+
+@media only screen and (max-width: 1200px) {
+    .movie-detail-wrapper{
+        padding-left: 30px;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .movie-detail-wrapper{
+        padding-left: 80px;
+    }
+}
+
+@media only screen and (max-width: 767.9px) {
+    .movie-detail-wrapper{
+        padding-left: 0px;
+        margin-top: 10px;
+    }
+
+    .movie-wrapper{
+        top: 140px;
+        /* margin-top: 100px; */
+    }
+
+    .stripe-bg{
+        margin-bottom: 100px;
+    }
+}
+
+@media only screen and (max-width: 578px) {
+    .proceed-btn{
+        right: 50px;
+    }
+}
+
+@media only screen and (max-width: 335px) {
+    .proceed-btn{
+        bottom: -110px;
+        right: 90px;
+    }
+
+    .movie-wrapper{
+        top: 140px;
+    }
 }

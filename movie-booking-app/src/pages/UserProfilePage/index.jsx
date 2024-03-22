@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
+import Navbar from '../../components/Navbar';
 import './UserProfilePage.css';
+import Endpoints from '../../api/Endpoints';
 
 const UserProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
-  const [editedProfile, setEditedProfile] = useState({});
+  const [editedProfile, setEditedProfile] = useState({
+    name: '',
+    date_of_birth: '',
+    username: '',
+    password: '',
+    email: '',
+    mobile: '',
+    address: '',
+  });
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const user_id = localStorage.getItem('user_id');
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/users/${user_id}/`, {
+        const response = await axios.get(`${Endpoints.USERS}${user_id}/`, {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
@@ -49,7 +59,7 @@ const UserProfilePage = () => {
     try {
       const user_id = localStorage.getItem('user_id');
       const access_token = localStorage.getItem('access_token');
-      await axios.put(`http://127.0.0.1:8000/api/users/${user_id}/`, editedProfile, {
+      await axios.put(`${Endpoints.USERS}${user_id}/`, editedProfile, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -70,154 +80,207 @@ const UserProfilePage = () => {
     }));
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "_";
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+  };
+
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-3"></div>
-        <div className="col-md-6">
+    <>
+      <Navbar />
+      <div className="container py-5">
+        <div className="row mt-4 py-3">
           {loading ? (
-            <div>
+            <div className="col text-center">
               <div className="spinner-grow text-primary spinner-grow-sm" role="status"></div>
               <div className="spinner-grow text-primary spinner-grow-sm" role="status"></div>
               <div className="spinner-grow text-primary spinner-grow-sm" role="status"></div>
             </div>
-          ) : profile && !isEditMode ? (
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0">{console.log(profile)}User Profile</h2>
+          ) : profile ? (
+            <>
+              <div className="col-md-4">
+                <div className="card mb-4">
+                  <div className="card-body bg-primary text-center">
+                    <FaUser className="img-fluid" color="white" size="120px" />
+                    <h5 className="my-3 text-white">{profile.username}</h5>
+                    <p className="mb-0">Admin Access: {profile.is_staff && profile.is_superuser ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
               </div>
-              <div className="card-body text-light">
-                <p className="card-text">
-                  <strong>Name:</strong> {profile.name}
-                </p>
-                <p className="card-text">
-                  <strong>Email:</strong> {profile.email}
-                </p>
-                <p className="card-text">
-                  <strong>Username:</strong> {profile.username}
-                </p>
-                <p className="card-text">
-                  <strong>Password:</strong> ********
-                </p>
-                <p className="card-text">
-                  <strong>Mobile:</strong> {profile.mobile}
-                </p>
-                <p className="card-text">
-                  <strong>Date of Birth:</strong> {profile.date_of_birth}
-                </p>
-                <p className="card-text">
-                  <strong>Address:</strong> {profile.address}
-                </p>
-              </div>
-              <div className="card-body">
-                <button className="btn btn-primary mb-2" onClick={handleEdit}>
-                  Edit Profile
-                </button>
-              </div>
-            </div>
-          ) : profile && isEditMode ? (
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0">Edit Profile</h2>
-              </div>
-              <div className="card-body text-light">
-                <div className="form-group acc-group">
-                  <label htmlFor="name">Name:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    value={editedProfile.name}
-                    onChange={handleChange}
-                  />
+              {!isEditMode ? (
+                <div className='col-md-8'>
+                  <div className="card mb-4">
+                    <div className="card-body bg-light">
+                    <div className="row">
+                        <div className="col-md-5">
+                          <strong>Full Name</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">{profile.name}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong className="mb-0">DOB</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">{formatDate(profile.date_of_birth)}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Username</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">{profile.username}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Password</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">************</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Email</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">{profile.email}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Mobile</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">
+                            {profile.mobile.length === 0 ? "_" : profile.mobile}
+                          </p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Address</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <p className="text-muted mb-0">
+                            {profile.address.length === 0 ? "_" : profile.address}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="btn btn-primary" onClick={handleEdit}>
+                    Edit Profile
+                  </button>
                 </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={editedProfile.email}
-                    onChange={handleChange}
-                  />
+              ) : (
+                <div className='col-md-8'>
+                  <div className="card mb-4">
+                    <div className="card-body bg-light">
+                    <div className="row">
+                        <div className="col-md-5">
+                          <strong>Full Name</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="text" className="form-control form-control-sm mb-0" id="name" name="name" value={editedProfile.name}
+                            onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>DOB</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="date" className="form-control form-control-sm date-picker" id="date_of_birth" name="date_of_birth"
+                            value={editedProfile.date_of_birth} onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Username</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="text" className="form-control form-control-sm" id="username" name="username" value={editedProfile.username}
+                            onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Password</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="password" className="form-control form-control-sm" id="password" name="password" value={editedProfile.password
+                            || ''} onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Email</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="email" className="form-control form-control-sm" id="email" name="email" value={editedProfile.email}
+                            onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Mobile</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="text" className="form-control form-control-sm" id="mobile" name="mobile" value={editedProfile.mobile}
+                            onChange={handleChange} />
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-md-5">
+                          <strong>Address</strong>
+                        </div>
+                        <div className="col-md-7">
+                          <input type="text" className="form-control form-control-sm" id="address" name="address" value={editedProfile.address}
+                            onChange={handleChange} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='text-right'>
+                    <button className="btn btn-primary mr-2" onClick={handleSaveEdit}>
+                      Save
+                    </button>
+                    <button className="btn btn-secondary" onClick={handleCancelEdit}>
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="username">Username:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    name="username"
-                    value={editedProfile.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="password">Password:</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={editedProfile.password || ''}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="mobile">Mobile:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="mobile"
-                    name="mobile"
-                    value={editedProfile.mobile}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="date_of_birth">Date of Birth:</label>
-                  <input
-                    type="date"
-                    className="form-control date-picker"
-                    id="date_of_birth"
-                    name="date_of_birth"
-                    value={editedProfile.date_of_birth}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group acc-group">
-                  <label htmlFor="address">Address:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    name="address"
-                    value={editedProfile.address}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button className="btn btn-primary mr-2" onClick={handleSaveEdit}>
-                  Save
-                </button>
-                <button className="btn btn-secondary" onClick={handleCancelEdit}>
-                  Cancel
-                </button>
-              </div>
-            </div>
+              )}
+            </>
           ) : (
-            <p>Error loading profile</p>
+            <div className="col text-danger text-center">
+              <p className="blockquote">Error loading profile...</p>
+            </div>
           )}
-          <div className="mt-3">
-            <Link to="/" className="join-btn rounded px-2">
-              Go to Home
-            </Link>
-          </div>
         </div>
-        <div className="col-md-3"></div>
       </div>
-    </div>
+    </>
   );
 };
 

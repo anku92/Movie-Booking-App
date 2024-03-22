@@ -11,7 +11,7 @@
 
 .nav-links {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding-left: 20px;
     margin-right: auto;
@@ -54,6 +54,9 @@
     cursor: default;
     box-shadow: none;
 }
+.admin-option{
+    flex-grow: 1;
+}
 
 @media only screen and (max-width: 575.98px) {
 
@@ -62,6 +65,17 @@
         margin-top: 5px;
         align-items: center;
         justify-content: center;
+    }
+
+    .admin-option{
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .admin-option a{
+        padding: 10px;
+        font-size: 14px;
     }
 
     .navlink {
@@ -79,14 +93,30 @@
         padding: 8px 16px;
         font-size: 15px;
     }
-
 }
 
+@media only screen and (max-width: 270px) {
+    .navbar-toggler-icon{
+        width: 1.2em !important;
+        height: 1.2em !important;
+    }
 
-@media only screen and (max-width: 340px) {
-
-    .join-btn, .navlink{
-        font-size: 10px;
-        padding: 6px 8px;
+    .navbar-toggler{
+        padding: 5px !important;
+    }
+    .hero-logo{
+        width: 120px;
+    }
+    .nav-links{
+        border-top: 1px solid #0a34c1;
+        padding-top: 10px;
+    }
+    .navlink{
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .join-btn{
+        padding: 6px 12px;
+        font-size: 12px;
     }
 }

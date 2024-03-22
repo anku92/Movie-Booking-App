@@ -5,24 +5,25 @@ import city_icon from '../../images/city.png';
 import cinema_icon from '../../images/cinema.png';
 import genre_icon from '../../images/ticket-tab01.png';
 import axios from 'axios';
+import Endpoints from '../../api/Endpoints';
 
 const SearchTab = ({ onFilterChange }) => {
     const [keyword, setKeyword] = useState('');
     const [city, setCity] = useState('');
     const [cinema, setCinema] = useState('');
-    const [genre, setGenre] = useState(''); // State for genre
+    const [genre, setGenre] = useState('');
     const [cityOptions, setCityOptions] = useState([]);
     const [cinemaOptions, setCinemaOptions] = useState([]);
-    const [genreOptions, setGenreOptions] = useState([]); // State for genre options
+    const [genreOptions, setGenreOptions] = useState([]);
 
     useEffect(() => {
         fetchCinemaOptions();
-        fetchGenreOptions(); // Fetch genre options when the component mounts
+        fetchGenreOptions();
     }, []);
 
     const fetchCinemaOptions = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/cinemas/');
+            const response = await axios.get(Endpoints.CINEMA_LIST);
             if (response.status === 200) {
                 const cinemaData = response.data;
                 const uniqueCities = [...new Set(cinemaData.map((cinema) => cinema.city))];
@@ -40,7 +41,7 @@ const SearchTab = ({ onFilterChange }) => {
 
     const fetchGenreOptions = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/movies/');
+            const response = await axios.get(Endpoints.MOVIES_LIST);
             if (response.status === 200) {
                 const genreData = response.data;
                 const uniqueGenres = [...new Set(genreData.map((movie) => movie.genre))];

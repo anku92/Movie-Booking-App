@@ -3,21 +3,17 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
 import './AddMoviePage.css';
-
+import Endpoints from '../../api/Endpoints';
 
 const AddMoviePage = () => {
-    const nav = useNavigate()
     const [loading, setLoading] = useState(false);
     const [requestResponse, setRequestResponse] = useState({
         textMessage: '',
         alertClass: ''
-    })
+    });
 
-    const getToken = () => {
-        return localStorage.getItem("access_token");
-    }
+    const getToken = () => localStorage.getItem("access_token");
 
     const initialValues = {
         title: '',
@@ -32,13 +28,13 @@ const AddMoviePage = () => {
         language: '',
         tomato_meter: '',
         audience_meter: ''
-    }
+    };
 
     const onSubmit = async (values) => {
         try {
             setLoading(true);
             const token = getToken();
-            const response = await axios.post('http://127.0.0.1:8000/api/movie/add/', values, {
+            await axios.post(Endpoints.ADD_MOVIE, values, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -49,24 +45,18 @@ const AddMoviePage = () => {
                 alertClass: 'alert alert-success px-2 py-1 font-weight-bold'
             });
         } catch (error) {
-
+            let errorMessage;
             if (error.response) {
-
-                setRequestResponse({
-                    textMessage: 'Error occurred while adding movie.',
-                    alertClass: 'alert alert-danger px-2 py-1 font-weight-bold'
-                });
+                errorMessage = 'Error occurred while adding movie.';
             } else if (error.request) {
-                setRequestResponse({
-                    textMessage: 'No response from server. Please try again later.',
-                    alertClass: 'alert alert-danger px-2 py-1 font-weight-bold'
-                });
+                errorMessage = 'No response from server. Please try again later.';
             } else {
-                setRequestResponse({
-                    textMessage: 'An unexpected error occurred. Please try again later.',
-                    alertClass: 'alert alert-danger px-2 py-1 font-weight-bold'
-                });
+                errorMessage = 'An unexpected error occurred. Please try again later.';
             }
+            setRequestResponse({
+                textMessage: errorMessage,
+                alertClass: 'alert alert-danger px-2 py-1 font-weight-bold'
+            });
         } finally {
             setLoading(false);
         }
@@ -113,8 +103,7 @@ const AddMoviePage = () => {
             .integer('Value must be an integer')
             .max(100, 'Value must be ≤ 100')
             .typeError('Provide a valid number')
-    })
-
+    });
 
     return (
         <>
@@ -136,10 +125,9 @@ const AddMoviePage = () => {
                                     validationSchema={validationSchema}
                                     validateOnMount
                                 >
-                                    {(formik) => {
-                                        return (
-                                            <Form>
-                                                <div className="form-group acc-group">
+                                    {(formik) => (
+                                        <Form>
+                                            <div className="form-group acc-group">
                                                     <label htmlFor="title">TITLE</label>
                                                     <Field
                                                         type="text" name='title' id='title' placeholder='Harry Potter'
@@ -201,7 +189,7 @@ const AddMoviePage = () => {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-7">
+                                                    <div className="col">
                                                         <div className="form-group acc-group">
                                                             <label htmlFor="poster">POSTER URL</label>
                                                             <Field
@@ -216,10 +204,16 @@ const AddMoviePage = () => {
                                                     <div className="col">
                                                         <div className="form-group acc-group">
                                                             <label htmlFor="language">LANGUAGE</label>
-                                                            <Field
-                                                                type="text" name='language' id='language' placeholder='English' maxLength={22}
+                                                            <Field as="select" name="language" id="language"
                                                                 className={formik.touched.language && formik.errors.language ? 'form-control is-invalid' : 'form-control'}
-                                                            />
+                                                            >
+                                                                <option value="">Select Language</option>
+                                                                <option value="English">English</option>
+                                                                <option value="Hindi">Hindi</option>
+                                                                <option value="Tamil">Tamil</option>
+                                                                <option value="Malayalam">Malayalam</option>
+                                                                <option value="Telugu">Telugu</option>
+                                                            </Field>
                                                             <ErrorMessage name='language'>
                                                                 {(errorMessage) => (<small className='text-danger'>{errorMessage}</small>)}
                                                             </ErrorMessage>
@@ -303,12 +297,11 @@ const AddMoviePage = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="account-container">
-                                                    <input type="submit" disabled={!formik.isValid} className="join-btn" value='Add Movie' />
-                                                </div>
-                                            </Form>
-                                        )
-                                    }}
+                                            <div className="account-container">
+                                                <input type="submit" disabled={!formik.isValid} className="join-btn" value='Add Movie' />
+                                            </div>
+                                        </Form>
+                                    )}
                                 </Formik>
                             </div>
                         </div>
