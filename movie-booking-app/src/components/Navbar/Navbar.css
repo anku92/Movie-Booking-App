@@ -102,16 +102,32 @@
         margin-right: 5px;
     }
 }
+
 @media only screen and (max-width: 360px) {
     .tickets-btn{
         flex-grow: 0;
         /* margin-right: 0; */
     }
-    .header .hero-logo{
-        flex-grow: 100;
-    }
 }
 
+@media only screen and (min-width: 297px) and (max-width: 355px) {
+    .hero-logo{
+        height: 32px;
+    }
+
+    .navbar-toggler{
+        padding: 3px 7px !important;
+    }
+
+    .navbar-toggler-icon{
+        width: 1.4em !important;
+        height: 1.4em !important;
+    }
+    .tickets-btn > button{
+        padding: 4px 7px;
+        font-size: 14px;
+    }
+}
 
 @media only screen and (max-width: 270px) {
 
