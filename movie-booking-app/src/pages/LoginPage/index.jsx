@@ -85,7 +85,7 @@ const LoginPage = () => {
                         <div className="col-md-6">
                             <div className="wrapper">
                                 <div className={requestResponse.alertClass}>
-                                    {requestResponse.textMessage}
+                                    {requestResponse.textMessage} &nbsp;
                                     {loading && (<span className="spinner-border spinner-border-sm text-success"></span>)}
                                 </div>
                                 <h6 className='teal'>HELLO</h6>

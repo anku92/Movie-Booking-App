@@ -11,35 +11,60 @@ const CinemaSelectionPage = () => {
     const nav = useNavigate();
     const cinemas = state.movie.cinemas;
 
-    const [favoriteCinemas, setFavoriteCinemas] = useState([]);
+    // Retrieve user ID from local storage
+    const userId = localStorage.getItem('user_id');
+    const accessToken = localStorage.getItem('access_token');
 
     // Load user's favorite cinemas from localStorage on component mount
-    useEffect(() => {
-        const storedFavorites = localStorage.getItem('favoriteCinemas');
-        if (storedFavorites) {
-            setFavoriteCinemas(JSON.parse(storedFavorites));
-        }
-    }, []);
+    const [favorite_cinemas, setFavorite_cinemas] = useState(() => {
+        const storedFavorites = localStorage.getItem(`favorite_cinemas`);
+        return storedFavorites ? JSON.parse(storedFavorites) : [];
+    });
 
     // Save favorite cinemas to localStorage whenever it changes
     useEffect(() => {
-        localStorage.setItem('favoriteCinemas', JSON.stringify(favoriteCinemas));
-    }, [favoriteCinemas]);
+        localStorage.setItem(`favorite_cinemas`, JSON.stringify(favorite_cinemas));
+    }, [favorite_cinemas]);
 
     const movieSchedules = ['12:00', '18:00'];
 
-    const toggleHeart = (cinemaId) => {
-        setFavoriteCinemas((prevFavorites) => {
-            if (prevFavorites.includes(cinemaId)) {
-                return prevFavorites.filter((id) => id !== cinemaId);
-            } else {
-                return [...prevFavorites, cinemaId];
+    const toggleHeart = async (cinemaId) => {
+        // Make sure access_token is available
+        if (!accessToken) {
+            // Redirect to login page if not logged in
+            nav('/login');
+            return;
+        }
+
+        const updatedFavorites = favorite_cinemas.includes(cinemaId)
+            ? favorite_cinemas.filter(id => id !== cinemaId)
+            : [...favorite_cinemas, cinemaId];
+
+        setFavorite_cinemas(updatedFavorites);
+
+        try {
+            // Call API to add or remove favorites
+            const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/toggle/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ favorite_cinemas: updatedFavorites })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update favorites');
             }
-        });
+
+            // Handle response if needed
+        } catch (error) {
+            console.error('Error updating favorites:', error.message);
+        }
     };
 
     const isCinemaFavorite = (cinemaId) => {
-        return favoriteCinemas.includes(cinemaId);
+        return favorite_cinemas.includes(cinemaId);
     };
 
     const handleProceedToBooking = (cinema, schedule) => {
@@ -49,44 +74,38 @@ const CinemaSelectionPage = () => {
     return (
         <>
             <Navbar />
-            <div className="ticket-plan text-light">
-                <div className="container">
-                    <div className="mb-5 pb-5"></div>
+            <div className="container cinema-container text-light">
+                <div className="back-btn">
                     <Link to={`/${id}`} className="join-btn rounded p-2">&#11164; BACK</Link>
-                    <div className="mt-4"></div>
-                    <div className="row">
-                        <Movie data={state.movie} />
-                        <div className="col-md-9 border-left">
-                            {cinemas.length === 0 ? (
-                                <h3 className='h-100 d-flex align-items-center justify-content-center'>No show for this movie</h3>
-                            ) : (
-                                <ul className="cinema-scroll seat-plan-wrapper">
-                                    {cinemas.map((cinema) => (
-                                        <li key={cinema.id}>
-                                            <div className="movie-name">
-                                                <div className="like-icons">
-                                                    <i onClick={() => toggleHeart(cinema.id)}>
-                                                        {isCinemaFavorite(cinema.id) ? <FaHeart /> : <FaRegHeart />}
-                                                    </i>
-                                                </div>
-                                                <p className="mb-0 name">{cinema.name}</p>
+                </div>
+                <div className="row">
+                    <Movie data={state.movie} />
+                    <div className="col border-left">
+                        <ul className="cinema-scroll seat-plan-wrapper">
+                            {cinemas.map((cinema) => (
+                                <li key={cinema.id}>
+                                    <div className="movie-name">
+                                        <div className="like-icons">
+                                            <i onClick={() => toggleHeart(cinema.id)}>
+                                                {isCinemaFavorite(cinema.id) ? <FaHeart /> : <FaRegHeart />}
+                                            </i>
+                                        </div>
+                                        <p className="mb-0 name">{cinema.name}</p>
+                                    </div>
+                                    <div className="movie-schedule">
+                                        {movieSchedules.map((schedule, index) => (
+                                            <div
+                                                key={index}
+                                                className="time"
+                                                onClick={() => handleProceedToBooking(cinema, schedule)}
+                                            >
+                                                {schedule}
                                             </div>
-                                            <div className="movie-schedule">
-                                                {movieSchedules.map((schedule, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="time"
-                                                        onClick={() => handleProceedToBooking(cinema, schedule)}
-                                                    >
-                                                        {schedule}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+                                        ))}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </div>

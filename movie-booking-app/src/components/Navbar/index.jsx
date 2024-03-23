@@ -55,10 +55,7 @@ const Navbar = () => {
     }, []);
 
     const onLogoutHandler = () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('saved_password');
+        localStorage.clear();
         setLoginStatus(false);
         setIsAdmin(false);
         navigate('/login');

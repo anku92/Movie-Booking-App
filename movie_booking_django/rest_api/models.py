@@ -35,6 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     date_of_birth = models.DateField(null=True, blank=True)
     address = models.TextField(blank=True)
+    favorite_cinemas = models.ManyToManyField('Cinema', blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -49,6 +50,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.name
+    
+    def toggle_favorite_cinema(self, cinema_ids):
+        cinemas_to_add = Cinema.objects.filter(pk__in=cinema_ids)
+        cinemas_to_remove = self.favorite_cinemas.filter(pk__in=cinema_ids)
+        
+        for cinema in cinemas_to_add:
+            self.favorite_cinemas.add(cinema)
+        
+        for cinema in cinemas_to_remove:
+            self.favorite_cinemas.remove(cinema)
+        
+        added_ids = cinemas_to_add.values_list('pk', flat=True)
+        removed_ids = cinemas_to_remove.values_list('pk', flat=True)
+        
+        message_parts = []
+        if added_ids:
+            message_parts.append(f"Cinemas {', '.join(map(str, added_ids))} added to favorites.")
+        if removed_ids:
+            message_parts.append(f"Cinemas {', '.join(map(str, removed_ids))} removed from favorites.")
+        
+        return ' '.join(message_parts)
 
 # -----------------------------------------------------------------------------------
 

@@ -69,7 +69,7 @@ const TicketBookingPage = () => {
         if (selectedSeats.length > 0) {
             try {
                 const userId = localStorage.getItem('user_id'); // Retrieve user ID from localStorage
-                const formattedDate = `${selectedDate.getDate()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getFullYear()}`
+                const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getDate()}`
     
                 const ticketData = {
                     cinema: cinema.name,

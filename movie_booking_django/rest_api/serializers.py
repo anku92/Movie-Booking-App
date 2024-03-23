@@ -4,8 +4,25 @@ from django.contrib.auth import authenticate
 from django.core import validators
 
 
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = "__all__"
+
+
+class CinemaSerializer(serializers.ModelSerializer):
+    movies = serializers.PrimaryKeyRelatedField(
+        queryset=Movie.objects.all(), many=True, required=False
+    )
+
+    class Meta:
+        model = Cinema
+        fields = "__all__"
+
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
+    favorite_cinemas = CinemaSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -18,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
             "mobile",
             "date_of_birth",
             "address",
+            "favorite_cinemas",
             "is_staff",
             "is_superuser",
         )
@@ -99,22 +117,6 @@ class SuperuserSerializer(UserSerializer):
         model = User
         fields = UserSerializer.Meta.fields
         extra_fields = ("is_superuser", "is_staff")
-
-
-class MovieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Movie
-        fields = "__all__"
-
-
-class CinemaSerializer(serializers.ModelSerializer):
-    movies = serializers.PrimaryKeyRelatedField(
-        queryset=Movie.objects.all(), many=True, required=False
-    )
-
-    class Meta:
-        model = Cinema
-        fields = "__all__"
 
 
 class TicketSerializer(serializers.ModelSerializer):

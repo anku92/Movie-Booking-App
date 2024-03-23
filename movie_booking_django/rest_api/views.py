@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 from .permissions import IsAdminOrSelf
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # ---------------------- MOVIE VIEW BELOW----------------------
@@ -244,6 +245,17 @@ class UserView(RetrieveUpdateDestroyAPIView):
         return response
 
 
+class UpdateFavoriteCinemas(APIView):
+    def put(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        cinema_ids = request.data.get('favorite_cinemas', [])
+
+        message = user.toggle_favorite_cinema(cinema_ids)
+        user.save()
+
+        return Response({"message": message}, status=status.HTTP_200_OK)
+
+
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -254,6 +266,7 @@ class LoginView(APIView):
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
                 "user_id": int(user.id),
+                "favorite_cinemas": user.favorite_cinemas.values()
             }
             return Response(data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
@@ -261,6 +274,7 @@ class LoginView(APIView):
 
 # # ---------------------- TICKET VIEW BELOW ----------------------
 class TicketCreateView(APIView):
+    permission_classes = IsAuthenticated
     def post(self, request, *args, **kwargs):
         data = request.data
         serializer = TicketSerializer(data=data)
@@ -269,3 +283,12 @@ class TicketCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class UserTicketListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id, *args, **kwargs):
+        tickets = Ticket.objects.filter(user_id=user_id)
+        serializer = TicketSerializer(tickets, many=True)
+        return Response(serializer.data)
