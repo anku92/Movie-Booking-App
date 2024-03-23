@@ -274,7 +274,7 @@ class LoginView(APIView):
 
 # # ---------------------- TICKET VIEW BELOW ----------------------
 class TicketCreateView(APIView):
-    permission_classes = IsAuthenticated
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         data = request.data
         serializer = TicketSerializer(data=data)

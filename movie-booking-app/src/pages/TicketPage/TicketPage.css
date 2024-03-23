@@ -1,0 +1,15 @@
+.tickets-container{
+    padding-top:90px;
+    padding-bottom: 20px;
+}
+
+@media only screen and (max-width: 575.9px) {
+    .tickets-container{
+        padding-top: 120px;
+    }
+}
+@media only screen and (max-width: 499.9px) {
+    .tickets-container{
+        padding-top: 80px;
+    }
+}

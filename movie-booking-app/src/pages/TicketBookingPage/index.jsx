@@ -7,7 +7,6 @@ import Navbar from '../../components/Navbar';
 import BookingDetailsModal from '../../components/BookingDetailModal';
 import Endpoints from '../../api/Endpoints';
 
-
 const TicketBookingPage = () => {
     const nav = useNavigate()
     const { id } = useParams();
@@ -56,6 +55,7 @@ const TicketBookingPage = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        nav('/')
     };
 
 
@@ -68,8 +68,9 @@ const TicketBookingPage = () => {
     
         if (selectedSeats.length > 0) {
             try {
-                const userId = localStorage.getItem('user_id'); // Retrieve user ID from localStorage
-                const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getDate()}`
+                const token = localStorage.getItem('access_token');
+                const userId = localStorage.getItem('user_id');
+                const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getDate()}`;
     
                 const ticketData = {
                     cinema: cinema.name,
@@ -79,14 +80,14 @@ const TicketBookingPage = () => {
                     schedule: schedule,
                     show_date: formattedDate,
                     ticket_price: selectedSeats.length * price,
-                    user: userId // Include user ID here
+                    user: userId
                 };
-                console.log(ticketData)
     
                 const response = await fetch(Endpoints.CREATE_TICKET, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(ticketData),
                 });

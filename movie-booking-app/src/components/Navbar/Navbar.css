@@ -95,18 +95,26 @@
     }
 }
 
-@media only screen and (max-width: 270px) {
-    .navbar-toggler-icon{
-        width: 1.2em !important;
-        height: 1.2em !important;
-    }
 
-    .navbar-toggler{
-        padding: 5px !important;
+@media only screen and (max-width: 575.9px) {
+    .tickets-btn{
+        flex-grow: 1;
+        margin-right: 5px;
     }
-    .hero-logo{
-        width: 120px;
+}
+@media only screen and (max-width: 360px) {
+    .tickets-btn{
+        flex-grow: 0;
+        /* margin-right: 0; */
     }
+    .header .hero-logo{
+        flex-grow: 100;
+    }
+}
+
+
+@media only screen and (max-width: 270px) {
+
     .nav-links{
         border-top: 1px solid #0a34c1;
         padding-top: 10px;

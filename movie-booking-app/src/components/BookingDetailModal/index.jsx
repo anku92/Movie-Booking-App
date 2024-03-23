@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 
 const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats, numSeats, schedule, showDate, price }) => {
 
-  const totalAmount = selectedSeats.length * numSeats * price;
 
   return (
     <Modal
@@ -48,7 +47,7 @@ const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats,
                     </tr>
                     <tr>
                       <th>Total Amount:</th>
-                      <td>{totalAmount}</td>
+                      <td>{selectedSeats.length*price}</td>
                     </tr>
                   </tbody>
                 </table>

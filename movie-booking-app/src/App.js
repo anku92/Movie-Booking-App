@@ -8,6 +8,7 @@ import TicketBookingPage from "./pages/TicketBookingPage";
 import CinemaSelectionPage from './pages/CinemaSelectionPage'
 import UserProfilePage from "./pages/UserProfilePage";
 import AddMoviePage from "./pages/AddMoviePage";
+import TicketPage from "./pages/TicketPage";
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/:id/cinema-list" element={<CinemaSelectionPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/add-movie" element={<AddMoviePage />} />
+        <Route path="/tickets" element={<TicketPage />} />
       </Routes>
     </Router>
   );

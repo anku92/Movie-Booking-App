@@ -66,6 +66,13 @@ const Navbar = () => {
             <div className='navbar-brand'>
                 <Link title='Home' to="/"><img className='hero-logo' src={logo} alt="logo" /></Link>
             </div>
+            {
+                loginStatus ?
+                    <div className="tickets-btn">
+                        <button onClick={() => navigate('/tickets')} className="btn btn-outline-warning font-weight-bold">Tickets</button>
+                    </div>
+                    : <></>
+            }
             <button
                 className="navbar-toggler"
                 type="button" data-toggle="collapse"

@@ -79,35 +79,39 @@ const CinemaSelectionPage = () => {
                     <Link to={`/${id}`} className="join-btn rounded p-2">&#11164; BACK</Link>
                 </div>
                 <div className="row">
-                    <Movie data={state.movie} />
-                    <div className="col border-left">
-                        <ul className="cinema-scroll seat-plan-wrapper">
-                            {cinemas.map((cinema) => (
-                                <li key={cinema.id}>
-                                    <div className="movie-name">
-                                        <div className="like-icons">
-                                            <i onClick={() => toggleHeart(cinema.id)}>
-                                                {isCinemaFavorite(cinema.id) ? <FaHeart /> : <FaRegHeart />}
-                                            </i>
-                                        </div>
-                                        <p className="mb-0 name">{cinema.name}</p>
-                                    </div>
-                                    <div className="movie-schedule">
-                                        {movieSchedules.map((schedule, index) => (
-                                            <div
-                                                key={index}
-                                                className="time"
-                                                onClick={() => handleProceedToBooking(cinema, schedule)}
-                                            >
-                                                {schedule}
+                        <Movie data={state.movie} />
+                        <div className="col-md-9 border-left">
+                            {cinemas.length === 0 ? (
+                                <h3 className='h-100 d-flex align-items-center justify-content-center'>No show for this movie</h3>
+                            ) : (
+                                <ul className="cinema-scroll seat-plan-wrapper">
+                                    {cinemas.map((cinema) => (
+                                        <li key={cinema.id}>
+                                            <div className="movie-name">
+                                                <div className="like-icons">
+                                                    <i onClick={() => toggleHeart(cinema.id)}>
+                                                        {isCinemaFavorite(cinema.id) ? <FaHeart /> : <FaRegHeart />}
+                                                    </i>
+                                                </div>
+                                                <p className="mb-0 name">{cinema.name}</p>
                                             </div>
-                                        ))}
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                                            <div className="movie-schedule">
+                                                {movieSchedules.map((schedule, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="time"
+                                                        onClick={() => handleProceedToBooking(cinema, schedule)}
+                                                    >
+                                                        {schedule}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     </div>
-                </div>
             </div>
         </>
     );
