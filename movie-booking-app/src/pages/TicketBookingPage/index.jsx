@@ -93,6 +93,7 @@ const TicketBookingPage = () => {
                 });
     
                 if (response.ok) {
+                    alert("Ticket Booking Successful.")
                     openModal();
                 } else {
                     console.error('Failed to create ticket');

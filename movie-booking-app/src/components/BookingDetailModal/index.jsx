@@ -13,7 +13,7 @@ const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats,
     >
       <div className="modal-content">
         <div className="modal-header bg-info text-white">
-          <h5 className="modal-title">Booking Details</h5>
+          <h5 className="modal-title">Booking Summary</h5>
           <button type="button" className="close text-white" onClick={closeModal}>
             <span>&times;</span>
           </button>
