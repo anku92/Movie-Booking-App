@@ -39,7 +39,7 @@ const TicketGrid = ({ tickets }) => {
 
             {sortedTickets.map((ticket, i) => {
                 const formattedDate = ticket.show_date.split('-').reverse().join('-');
-                const sortedSeat = ticket.seats.toString().split(',').sort().join(', ')
+                const sortedSeat = ticket.seats.toString().split(',').join(', ')
                 return (
                     <div key={ticket.id} className="card mb-4">
                         <div className="card-header bg-secondary text-white">

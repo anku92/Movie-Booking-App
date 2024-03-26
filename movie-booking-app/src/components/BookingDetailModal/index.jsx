@@ -1,8 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats, numSeats, schedule, showDate, price }) => {
-
+const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats, schedule, showDate, price }) => {
 
   return (
     <Modal

@@ -6,22 +6,23 @@ import screen from '../../images/screen-thumb.png';
 import Navbar from '../../components/Navbar';
 import BookingDetailsModal from '../../components/BookingDetailModal';
 import Endpoints from '../../api/Endpoints';
+import CustomAlertModal from '../../components/CustomAlertModal';
 
 const TicketBookingPage = () => {
-    const nav = useNavigate()
+    const nav = useNavigate();
     const { id } = useParams();
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [numSeats, setNumSeats] = useState(1);
-    const { state: { movie, cinema, schedule } } = useLocation()
+    const { state: { movie, cinema, schedule } } = useLocation();
     const currentDateTime = new Date();
     const [selectedDate, setSelectedDate] = useState(currentDateTime);
     const unselectableSeatsGrid1 = ['A1', 'B2'];
     const unselectableSeatsGrid2 = ['B3', 'A6', 'C5'];
     const unselectableSeatsGrid3 = ['A7', 'B8'];
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+    const [isBookingDetailsModalOpen, setIsBookingDetailsModalOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const price = 250
-
+    const price = 250;
 
     useEffect(() => {
         const token = localStorage.getItem('access_token');
@@ -49,29 +50,18 @@ const TicketBookingPage = () => {
         nav(`/${id}/cinema-list`, { state: { movie, cinema, schedule } });
     }
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        nav('/')
-    };
-
-
-    const handleBookTicket = async () => {
+    const handleProceed = async () => {
         if (!isLoggedIn) {
-            // Redirect user to login page if not logged in
             nav('/login');
             return;
         }
-    
+
         if (selectedSeats.length > 0) {
             try {
                 const token = localStorage.getItem('access_token');
                 const userId = localStorage.getItem('user_id');
                 const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)}-${selectedDate.getDate()}`;
-    
+
                 const ticketData = {
                     cinema: cinema.name,
                     movie: movie.title,
@@ -82,7 +72,7 @@ const TicketBookingPage = () => {
                     ticket_price: selectedSeats.length * price,
                     user: userId
                 };
-    
+
                 const response = await fetch(Endpoints.CREATE_TICKET, {
                     method: 'POST',
                     headers: {
@@ -91,10 +81,9 @@ const TicketBookingPage = () => {
                     },
                     body: JSON.stringify(ticketData),
                 });
-    
+
                 if (response.ok) {
-                    alert("Ticket Booking Successful.")
-                    openModal();
+                    setIsAlertModalOpen(true);
                 } else {
                     console.error('Failed to create ticket');
                 }
@@ -102,10 +91,23 @@ const TicketBookingPage = () => {
                 console.error('Error creating ticket:', error);
             }
         } else {
-            setSelectedSeats([]);
-            setNumSeats(1);
-            openModal();
+            setIsAlertModalOpen(true);
         }
+    };
+
+    const handleViewBookingSummary = () => {
+        setIsBookingDetailsModalOpen(true);
+        setIsAlertModalOpen(false);
+    };
+
+    const handleAlertModalClose = () => {
+        setIsAlertModalOpen(false);
+        nav('/');
+    };
+
+    const handleBookingDetailsModalClose = () => {
+        setIsBookingDetailsModalOpen(false);
+        nav('/');
     };
 
     const renderDateOptions = () => {
@@ -253,19 +255,27 @@ const TicketBookingPage = () => {
                             <p className='m-0'>Total Price</p>
                             <span className='teal'>{selectedSeats.length * price}</span>
                         </div>
-                        <button disabled={numSeats !== selectedSeats.length} className='join-btn mt-3' onClick={handleBookTicket}>PROCEED</button>
+                        <button disabled={numSeats !== selectedSeats.length} className='join-btn mt-3' onClick={handleProceed}>PROCEED</button>
                     </div>
                 </div>
             </div>
+            <CustomAlertModal
+                isOpen={isAlertModalOpen}
+                onClose={handleAlertModalClose}
+                message="Ticket booking successful!"
+                displayBookingSummary={true}
+                onViewBookingSummary={handleViewBookingSummary}
+            />
+
             <BookingDetailsModal
-                isOpen={isModalOpen}
-                closeModal={closeModal}
+                isOpen={isBookingDetailsModalOpen}
+                closeModal={handleBookingDetailsModalClose}
                 cinema={cinema}
                 movie={movie}
                 selectedSeats={selectedSeats}
                 numSeats={numSeats}
                 schedule={schedule}
-                showDate={selectedDate.toDateString()}
+                showDate={selectedDate.toDateString().toUpperCase().split(" ").splice(1).join(" ")}
                 price={price}
             />
         </>
@@ -273,3 +283,4 @@ const TicketBookingPage = () => {
 };
 
 export default TicketBookingPage;
+
