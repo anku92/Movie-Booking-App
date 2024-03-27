@@ -58,7 +58,12 @@ const SearchTab = ({ onFilterChange }) => {
         const selectedValue = e.target.value;
         setterFunction(selectedValue);
 
-        onFilterChange({ keyword, city: option === 'city' ? selectedValue : city, cinema: option === 'cinema' ? selectedValue : cinema, genre: option === 'genre' ? selectedValue : genre });
+        onFilterChange({
+            keyword, city: option === 'city' ?
+                selectedValue : city, cinema: option === 'cinema' ?
+                    selectedValue : cinema, genre: option === 'genre' ?
+                        selectedValue : genre
+        });
     };
 
     const handleSearchSubmit = (e) => {

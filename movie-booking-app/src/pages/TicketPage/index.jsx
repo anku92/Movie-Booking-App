@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TicketGrid from '../../components/TicketGrid';
 import Navbar from '../../components/Navbar';
 import './TicketPage.css';
+import Endpoints from '../../api/Endpoints';
 
 const TicketPage = () => {
     const [tickets, setTickets] = useState([]);
@@ -13,7 +14,7 @@ const TicketPage = () => {
                 const token = localStorage.getItem('access_token');
                 const userId = localStorage.getItem('user_id');
 
-                const response = await fetch(`http://127.0.0.1:8000/api/tickets/${userId}/`, {
+                const response = await fetch(`${Endpoints.USERS}${userId}/tickets`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

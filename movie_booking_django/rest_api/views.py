@@ -149,42 +149,25 @@ class UpdateCinemaView(APIView):
 
     def put(self, request, cinema_id):
         cinema = get_object_or_404(Cinema, id=cinema_id)
-        serialized_cinema = CinemaSerializer(cinema, data=request.data)
+        serialized_cinema = CinemaSerializer(cinema, data=request.data, partial=True)
 
         if serialized_cinema.is_valid():
-            # Update cinema details
-            cinema.name = serialized_cinema.validated_data.get("name", cinema.name)
-            cinema.city = serialized_cinema.validated_data.get("city", cinema.city)
-            cinema.location = serialized_cinema.validated_data.get(
-                "location", cinema.location
-            )
-
-            # Update movies
-            movie_ids = serialized_cinema.validated_data.get("movies", [])
-            cinema.movies.set(movie_ids)
+            cinema.__dict__.update(serialized_cinema.validated_data)
             cinema.save()
-
-            # Serialize and return updated data
-            updated_serialized_cinema = CinemaSerializer(cinema)
             return Response(
-                {
-                    "message": "successfully updated",
-                    "data": updated_serialized_cinema.data,
-                },
-                status=status.HTTP_200_OK,
+                {"Cinema updated": request.data},
+                status=status.HTTP_200_OK
             )
 
         return Response(
-            {"message": "cinema update failed", "errors": serialized_cinema.errors},
-            status=status.HTTP_400_BAD_REQUEST,
+            {"update failed": serialized_cinema.errors},
+            status=status.HTTP_400_BAD_REQUEST
         )
 
     def delete(self, request, cinema_id):
         cinema = get_object_or_404(Cinema, id=cinema_id)
         cinema.delete()
-        return Response(
-            {"message": "Cinema deleted"}, status=status.HTTP_204_NO_CONTENT
-        )
+        return Response({"message": "Cinema deleted"},status=status.HTTP_204_NO_CONTENT)
 
 
 # # ---------------------- USER VIEW BELOW ----------------------
@@ -203,9 +186,7 @@ class UserCreateView(APIView):
         if is_staff != is_superuser:
             # If is_staff and is_superuser are not both True or both False
             return Response(
-                {
-                    "error": "is_staff and is_superuser must be either both True or both False"
-                },
+                {"error": "is_staff & is_superuser, both should be True or both False"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -230,18 +211,18 @@ class UserView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsAdminOrSelf]
 
-    def delete(self, request, *args, **kwargs):
-        response = self.destroy(request, *args, **kwargs)
+    def delete(self, request, pk):
+        response = self.destroy(request, pk)
         if response.status_code == status.HTTP_204_NO_CONTENT:
             message = {"detail": "User deleted successfully."}
             response.data = message
         return response
 
-    def put(self, request, *args, **kwargs):
-        response = self.update(request, *args, **kwargs)
+    def put(self, request, pk):
+        response = self.update(request, pk)
         if response.status_code == status.HTTP_200_OK:
             message = {"detail": "User updated successfully."}
-            response.data = message
+            response.data = request.data
         return response
 
 
@@ -275,7 +256,7 @@ class LoginView(APIView):
 # # ---------------------- TICKET VIEW BELOW ----------------------
 class TicketCreateView(APIView):
     permission_classes = [IsAuthenticated]
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         data = request.data
         serializer = TicketSerializer(data=data)
         if serializer.is_valid():
@@ -288,7 +269,7 @@ class TicketCreateView(APIView):
 class UserTicketListView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, user_id, *args, **kwargs):
+    def get(self, request, user_id):
         tickets = Ticket.objects.filter(user_id=user_id)
         serializer = TicketSerializer(tickets, many=True)
         return Response(serializer.data)

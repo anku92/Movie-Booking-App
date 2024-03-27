@@ -44,7 +44,7 @@ const CinemaSelectionPage = () => {
 
         try {
             // Call API to add or remove favorites
-            const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/toggle/`, {
+            const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/toggle/`, {// not functioning, except localstorage implementation
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

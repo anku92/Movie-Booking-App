@@ -30,37 +30,23 @@ const LoginPage = () => {
                 localStorage.setItem('access_token', access);
                 localStorage.setItem('refresh_token', refresh);
                 localStorage.setItem('user_id', user_id);
-    
+            
                 if (savePassword) {
                     localStorage.setItem('saved_password', values.password);
                 }
-    
+            
                 setRequestResponse({
                     textMessage: 'Login Successful',
                     alertClass: 'alert alert-success px-2 py-1 font-weight-bold',
                 });
                 setLoading(true);
-    
-                axios
-                    .get(`http://127.0.0.1:8000/api/users/${user_id}/`, {
-                        headers: {
-                            Authorization: `Bearer ${access}`,
-                        },
-                    })
-                    .then(() => {
-                        // Handle successful profile fetch
-                    })
-                    .catch(() => {
-                        // Handle profile fetch error
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                        nav('/')
-                    });
+            
+                // Navigate to another page after successful login
+                nav('/');
             })
-            .catch(() => {
+            .catch((error) => {
                 setRequestResponse({
-                    textMessage: 'Login Failed. Try again !!!',
+                    textMessage: 'Login Failed. Try again!',
                     alertClass: 'alert alert-danger px-2 py-1 font-weight-bold',
                 });
             });
