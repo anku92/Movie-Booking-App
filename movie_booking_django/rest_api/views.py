@@ -273,3 +273,10 @@ class UserTicketListView(APIView):
         tickets = Ticket.objects.filter(user_id=user_id)
         serializer = TicketSerializer(tickets, many=True)
         return Response(serializer.data)
+    
+
+class UserTicketDelete(APIView):
+    def delete(self, request, user_id, ticket_id):
+        ticket = get_object_or_404(Ticket, id=ticket_id, user_id=user_id)
+        ticket.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

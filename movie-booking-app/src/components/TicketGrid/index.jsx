@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TicketGrid = ({ tickets }) => {
+const TicketGrid = ({ tickets, onDelete }) => {
     const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
     const [buttonText, setButtonText] = useState('Sort ⭳');
 
@@ -29,6 +29,11 @@ const TicketGrid = ({ tickets }) => {
             </div>
         );
     }
+
+    const handleDelete = (ticketId) => {
+        onDelete(ticketId);
+        
+    };
 
     return (
         <>
@@ -77,8 +82,20 @@ const TicketGrid = ({ tickets }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-center text-uppercase card-header">
-                            <strong>Total: </strong>&#8377; {ticket.ticket_price}
+                        <div className="text-center text-uppercase card-footer">
+                            <div className="row">
+                                <div className="col-sm-6 d-flex align-items-center justify-content-center">
+                                    <strong>Total: </strong>&#8377; {ticket.ticket_price}
+                                </div>
+                                <div className="col-sm-6">
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => handleDelete(ticket.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );

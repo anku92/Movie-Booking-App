@@ -15,6 +15,7 @@ urlpatterns = [
     path("cinemas/<int:cinema_id>/", UpdateCinemaView.as_view(), name="update-cinema"),
     path("ticket/add/", TicketCreateView.as_view(), name="create-ticket"),
     path("users/<int:user_id>/tickets/", UserTicketListView.as_view(), name="view-ticket"),
+    path("users/<int:user_id>/tickets/<int:ticket_id>/", UserTicketDelete.as_view(), name="delete-ticket"),
     path('users/<int:user_id>/toggle/', UpdateFavoriteCinemas.as_view(), name='update-favorite-cinemas'),
 
 ]
