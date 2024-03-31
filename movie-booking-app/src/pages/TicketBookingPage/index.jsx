@@ -121,7 +121,7 @@ const TicketBookingPage = () => {
             const month = months[date.getMonth()];
             const year = date.getFullYear();
             options.push(
-                <option className='text-dark' key={i} value={date.toDateString()}>
+                <option className='text-center' key={i} value={date.toDateString()}>
                     {`${dayOfMonth}/${month}/${year}`}
                 </option>
             );
@@ -211,7 +211,7 @@ const TicketBookingPage = () => {
                         <span>Number of Seats:</span>
                         <select id="numSeats" value={numSeats} onChange={handleNumSeatsChange}>
                             {[1, 2, 3, 4, 5].map((num) => (
-                                <option className='text-dark' key={num} value={num}>
+                                <option className='text-center' key={num} value={num}>
                                     {num}
                                 </option>
                             ))}
@@ -223,11 +223,12 @@ const TicketBookingPage = () => {
                             {renderDateOptions()}
                         </select>
                     </div>
-
                 </div>
+
                 <div className='seat-grid'>
                     {renderSeatGrids()}
                 </div>
+
                 <ul className="showcase">
                     <li>
                         <div className="na"></div>

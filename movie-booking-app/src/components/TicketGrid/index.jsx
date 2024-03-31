@@ -32,12 +32,11 @@ const TicketGrid = ({ tickets, onDelete }) => {
 
     const handleDelete = (ticketId) => {
         onDelete(ticketId);
-        
+
     };
 
     return (
         <>
-
             <button className="btn btn-primary mb-3" onClick={toggleSortOrder}>
                 {buttonText}
             </button>

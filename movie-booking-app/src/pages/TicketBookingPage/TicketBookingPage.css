@@ -73,8 +73,7 @@
   width: 100%;
 }
 
-.seat-number>select,
-.date-selector>select {
+.show-schedule select {
   background-color: transparent;
   color: white;
   padding: 2px 8px;
@@ -84,6 +83,14 @@
   border: none;
   border-bottom: 1px solid rgb(49, 215, 169, 1);
   cursor: pointer;
+}
+
+.seat-number select:focus {
+  color: white;
+}
+
+.show-schedule option {
+  background-color: #122256;
 }
 
 .seat-number>span,

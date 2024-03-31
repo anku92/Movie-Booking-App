@@ -46,14 +46,22 @@ const BookingDetailsModal = ({ isOpen, closeModal, cinema, movie, selectedSeats,
                     </tr>
                     <tr>
                       <th>Total Amount:</th>
-                      <td>{selectedSeats.length*price}</td>
+                      <td>{selectedSeats.length * price}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            <p className='font-weight-bold m-0'>Show time: <span className='text-success'>{schedule}</span></p>
-            <p className='font-weight-bold m-0'>Show Date: <span className='text-danger'>{showDate}</span></p>
+            <div className="card-footer border">
+              <div className="row">
+                <div className="col border-right">
+                  <p className='font-weight-bold m-0'>Show time: <span>{schedule}</span></p>
+                </div>
+                <div className="col-7">
+                  <p className='font-weight-bold m-0'>Show Date: <span>{showDate}</span></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="modal-footer">
