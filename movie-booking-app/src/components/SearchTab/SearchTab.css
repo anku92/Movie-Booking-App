@@ -154,7 +154,7 @@
     }
 }
 
-@media only screen and (max-width: 931px) {
+@media only screen and (max-width: 932px) {
     .image-card{
         width: 100%;
     }
@@ -167,6 +167,12 @@
         height: 100%;
         width: 100%;
         flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 745px) {
+    .selectors {
+        justify-content: flex-start;
     }
 }
 
