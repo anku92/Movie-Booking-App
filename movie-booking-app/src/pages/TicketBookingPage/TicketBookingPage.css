@@ -186,7 +186,7 @@
   padding: 40px;
 }
 
-.choosed,
+.chosen,
 .total {
   display: flex;
   align-items: center;
@@ -214,4 +214,92 @@
   width: 250px;
   margin-top: 20px;
   box-shadow: 0 0 0 0.8px rgba(255, 255, 255, 0.1);
+}
+
+@media only screen and (max-width:700px) {
+
+  .banner-text {
+    h2,
+    h3,
+    h5 {
+      font-size: 20px;
+    }
+  }
+
+  .seat-grid {
+    width: 400px;
+    padding: 10px;
+  }
+
+  .screen-area img {
+    width: 450px;
+  }
+
+  .info span {
+    font-size: 20px;
+  }
+
+  .buy-btn {
+    font-size: 13px;
+    padding: 7px 13px;
+  }
+
+  .info p {
+    font-size: 15px;
+  }
+
+  .seat-number>span,
+  .date-selector>span {
+    font-size: 15px;
+    margin-right: 10px;
+  }
+
+  .show-schedule select {
+    font-size: 15px;
+  }
+
+  .showcase {
+    padding: 2px;
+  }
+
+  .showcase small {
+    margin-left: 0px;
+    font-size: 12px;
+  }
+
+
+  .na,
+  .sl,
+  .oc {
+    padding: 4px 6px;
+    margin-right: 5px;
+  }
+
+  .info-card{
+    height: 120px;
+    margin-bottom: 25px;
+  }
+
+  .info {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width:480px) {
+  .seat-grid {
+    width: 300px;
+    padding: 10px;
+  }
+
+  .info-card{
+    width: 100vw;
+    height:auto;
+  }
+  .info{
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+  .show-schedule{
+    flex-wrap: wrap;
+  }
 }

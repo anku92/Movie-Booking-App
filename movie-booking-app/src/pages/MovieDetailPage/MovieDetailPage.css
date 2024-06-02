@@ -39,10 +39,11 @@
 }
 
 .movie-poster{
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
-    width: 235px;
-    height: 330px;
+    width: 225px;
+    height: 325px;
+    margin-left: 30px;
 }
 
 .time-detail {
@@ -68,48 +69,49 @@
 .proceed-btn{
     position: relative;
     z-index: 1000;
+    margin-right: 20px;
 }
+
+.spinner {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.spinner div{
+    height: 60px;
+    width: 60px;
+}
+
 
 @media only screen and (max-width: 1200px) {
     .movie-detail-wrapper{
-        padding-left: 30px;
+        margin-left: 40px;
     }
 }
 @media only screen and (max-width: 992px) {
     .movie-detail-wrapper{
-        padding-left: 80px;
+        margin-left: 100px;
     }
 }
 
 @media only screen and (max-width: 767.9px) {
     .movie-detail-wrapper{
-        padding-left: 0px;
-        margin-top: 10px;
+        margin-left: 0px;
+        position: relative;
+        top: 25px;
+    }
+    .movie-poster {
+        width: 200px;
+        height: 300px;
+    }
+
+    .proceed-btn{
+        margin-right: 10px;
     }
 
     .movie-wrapper{
-        top: 140px;
-        /* margin-top: 100px; */
-    }
-
-    .stripe-bg{
-        margin-bottom: 100px;
-    }
-}
-
-@media only screen and (max-width: 578px) {
-    .proceed-btn{
-        right: 50px;
-    }
-}
-
-@media only screen and (max-width: 335px) {
-    .proceed-btn{
-        bottom: -110px;
-        right: 90px;
-    }
-
-    .movie-wrapper{
-        top: 140px;
+        top: 120px;
     }
 }

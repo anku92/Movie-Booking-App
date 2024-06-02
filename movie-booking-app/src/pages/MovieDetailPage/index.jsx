@@ -10,11 +10,13 @@ import './MovieDetailPage.css';
 const MovieDetailPage = () => {
   const [movie, setMovie] = useState({});
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const response = await axios.get(Endpoints.MOVIES_FILTER);
 
         if (response.status === 200) {
@@ -30,6 +32,8 @@ const MovieDetailPage = () => {
         }
       } catch (error) {
         console.error('Error during API request:', error.message);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -41,6 +45,15 @@ const MovieDetailPage = () => {
   const handleBookTickets = () => {
     nav(`/${id}/cinema-list`, { state: { movie } })
   }
+  if (loading) {
+
+    return (
+      <div className='spinner'>
+        <div className="spinner-border text-primary"></div>
+      </div>
+    )
+  }
+
 
   return (
     <>
@@ -49,7 +62,7 @@ const MovieDetailPage = () => {
         <div className="movie-wrapper">
           <div className="row">
             <div className="col-md-3">
-              <img src={poster} alt="" className='movie-poster'/>
+              <img src={poster} alt="" className='movie-poster' />
             </div>
             <div className="col-md-9">
               <div className="movie-detail-wrapper">

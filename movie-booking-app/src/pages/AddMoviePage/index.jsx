@@ -30,7 +30,7 @@ const AddMoviePage = () => {
         audience_meter: ''
     };
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values, {resetForm}) => {
         try {
             setLoading(true);
             const token = getToken();
@@ -44,6 +44,15 @@ const AddMoviePage = () => {
                 textMessage: "Movie added successfully",
                 alertClass: 'alert alert-success px-2 py-1 font-weight-bold'
             });
+            resetForm();
+
+            setTimeout(() => {
+                setRequestResponse({
+                    textMessage: '',
+                    alertClass:''
+                })
+            }, 3000);
+
         } catch (error) {
             let errorMessage;
             if (error.response) {

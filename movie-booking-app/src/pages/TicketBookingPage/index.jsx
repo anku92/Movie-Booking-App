@@ -167,7 +167,7 @@ const TicketBookingPage = () => {
         <>
             <Navbar />
             <div className="ticket-upper">
-                <div className="banner-bg">
+                <div className="banner-bg img-fluid">
                     <div className="banner-text">
                         <h2>{cinema.name}</h2>
                         <div className="bottom-border mt-0 mb-2"></div>
@@ -247,7 +247,7 @@ const TicketBookingPage = () => {
                 <div className="info-card">
                     <div className="info">
 
-                        <div className="choosed">
+                        <div className="chosen">
                             <p className='m-0'>You have Choosed Seat</p>
                             <span className='teal'>{selectedSeats.join(', ')}</span>
                         </div>
@@ -256,7 +256,7 @@ const TicketBookingPage = () => {
                             <p className='m-0'>Total Price</p>
                             <span className='teal'>{selectedSeats.length * price}</span>
                         </div>
-                        <button disabled={numSeats !== selectedSeats.length} className='join-btn mt-3' onClick={handleProceed}>PROCEED</button>
+                        <button disabled={numSeats !== selectedSeats.length} className='join-btn buy-btn mt-3' onClick={handleProceed}>PROCEED</button>
                     </div>
                 </div>
             </div>
